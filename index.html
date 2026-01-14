@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scout Media Drop</title>
+    <style>
+        :root {
+            --scout-green: #2E5D38; /* Classic Forest Green */
+            --scout-khaki: #F0E68C; /* Neckerchief Khaki */
+            --scout-brown: #5D4037; /* Wood/Leather */
+            --cream: #FAF9F6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--cream);
+            color: var(--scout-brown);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(46, 93, 56, 0.15);
+            border-top: 8px solid var(--scout-green);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: var(--scout-green);
+            margin: 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        p.subtitle {
+            color: #666;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--scout-green);
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-wrapper {
+            border: 2px dashed var(--scout-green);
+            background-color: rgba(240, 230, 140, 0.2);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-wrapper:hover {
+            background-color: rgba(240, 230, 140, 0.5);
+        }
+
+        .btn-submit {
+            background-color: var(--scout-green);
+            color: white;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e3f26;
+        }
+
+        .btn-submit:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #status {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Media Drop</h1>
+        <p class="subtitle">Upload photos & videos from our latest adventure</p>
+    </header>
+
+    <form id="uploadForm">
+        <div class="form-group">
+            <label for="eventName">Event Name</label>
+            <input type="text" id="eventName" name="eventName" placeholder="e.g. Summer Camp 2026" required>
+        </div>
+
+        <div class="form-group">
+            <label for="uploaderName">Your Name (Optional)</label>
+            <input type="text" id="uploaderName" name="uploaderName" placeholder="Scout Leader / Parent">
+        </div>
+
+        <div class="form-group">
+            <label>Select Media</label>
+            <div class="file-upload-wrapper" onclick="document.getElementById('fileInput').click()">
+                <span id="fileLabel">Click to choose a file</span>
+                <input type="file" id="fileInput" required>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Upload to Drive</button>
+    </form>
+    <div id="status"></div>
+</div>
+
+<script>
+    // -----------------------------------------------------------
+    // PASTE YOUR GOOGLE SCRIPT WEB APP URL BELOW inside the quotes
+    // -----------------------------------------------------------
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzkJoyqgIeMWHmNpe2bpNqf9BbX2xOTpeEDA_k3s9fdX2d1rxc803sC25OtIOZ4BtLI-g/exec"; 
+
+    const form = document.getElementById('uploadForm');
+    const fileInput = document.getElementById('fileInput');
+    const status = document.getElementById('status');
+    const submitBtn = document.getElementById('submitBtn');
+
+    // Update label when file is chosen
+    fileInput.addEventListener('change', function() {
+        if (this.files && this.files.length > 0) {
+            document.getElementById('fileLabel').textContent = this.files[0].name;
+        }
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!fileInput.files.length) {
+            status.textContent = "Please select a file first!";
+            status.style.color = "red";
+            return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        status.textContent = "Uploading... please wait.";
+        submitBtn.disabled = true;
+
+        reader.onload = function(e) {
+            const rawBase64 = e.target.result.split(',')[1]; // Remove the data:image/png;base64 part
+
+            const payload = {
+                file: rawBase64,
+                mimeType: file.type,
+                filename: file.name,
+                eventName: document.getElementById('eventName').value,
+                uploaderName: document.getElementById('uploaderName').value
+            };
+
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.result === 'success'){
+                    status.textContent = "Upload Complete! Thank you.";
+                    status.style.color = "green";
+                    form.reset();
+                    document.getElementById('fileLabel').textContent = "Click to choose a file";
+                } else {
+                    throw new Error(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                status.textContent = "Upload failed. Please try again.";
+                status.style.color = "red";
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+            });
+        };
+
+        reader.readAsDataURL(file);
+    });
+</script>
+
+</body>
+</html>
