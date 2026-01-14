@@ -15,11 +15,9 @@
             --text: #333333;
             --border: #ddd;
             --input-bg: #fafafa;
-            /* NEW: WARM GOLD GLOW FOR LIGHT MODE */
             --glow-color: rgba(0, 51, 102, 0.6); 
         }
 
-        /* Dark Mode Overrides */
         [data-theme="dark"] {
             --forest: #4da6ff;
             --accent: #ff4d4d;
@@ -28,7 +26,6 @@
             --text: #e0e0e0;
             --border: #444;
             --input-bg: #2d2d2d;
-            /* NEW: COOL BLUE GLOW FOR DARK MODE */
             --glow-color: rgba(77, 166, 255, 0.7);
         }
 
@@ -43,28 +40,17 @@
             transition: background 0.3s, color 0.3s;
         }
 
-        /* --- BOUNCING PULSING LOGO --- */
-        /* Define the breathing animation */
+        /* BOUNCING LOGO */
         @keyframes pulse-glow {
-            0%, 100% {
-                /* Small, faint glow */
-                filter: drop-shadow(0 0 8px var(--glow-color));
-                opacity: 0.15; 
-            }
-            50% {
-                /* Large, brighter glow */
-                filter: drop-shadow(0 0 16px var(--glow-color));
-                opacity: 0.3;
-            }
+            0%, 100% { filter: drop-shadow(0 0 8px var(--glow-color)); opacity: 0.15; }
+            50% { filter: drop-shadow(0 0 30px var(--glow-color)); opacity: 0.3; }
         }
-
         #bouncing-logo {
             position: fixed;
             width: 150px;
             z-index: -1;
             pointer-events: none;
             will-change: transform, filter;
-            /* Apply the animation: 4 seconds, smooth looping */
             animation: pulse-glow 4s ease-in-out infinite;
         }
 
@@ -111,113 +97,34 @@
         }
         @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
 
-        label {
-            display: block;
-            font-weight: bold;
-            color: var(--forest);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-        }
-        
-        .helper-text {
-            font-size: 0.7rem;
-            color: #888;
-            margin-top: -3px;
-            margin-bottom: 5px;
-            font-style: italic;
-        }
+        label { display: block; font-weight: bold; color: var(--forest); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; }
+        .helper-text { font-size: 0.7rem; color: #888; margin-top: -3px; margin-bottom: 5px; font-style: italic; }
+        input, select { width: 100%; padding: 10px; border: 2px solid var(--border); border-radius: 4px; box-sizing: border-box; background: var(--input-bg); color: var(--text); margin-bottom: 15px; }
 
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid var(--border);
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: 'Lato', sans-serif;
-            background: var(--input-bg);
-            color: var(--text);
-            margin-bottom: 15px;
-        }
-
-        .mode-toggle {
-            display: flex;
-            background: var(--border);
-            border-radius: 4px;
-            padding: 4px;
-            margin-bottom: 15px;
-            grid-column: 1 / -1;
-        }
-        .mode-option {
-            flex: 1;
-            text-align: center;
-            padding: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.9rem;
-            color: #888;
-            border-radius: 4px;
-        }
-        .mode-option.active {
-            background: var(--card-bg);
-            color: var(--forest);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+        .mode-toggle { display: flex; background: var(--border); border-radius: 4px; padding: 4px; margin-bottom: 15px; grid-column: 1 / -1; }
+        .mode-option { flex: 1; text-align: center; padding: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; color: #888; border-radius: 4px; }
+        .mode-option.active { background: var(--card-bg); color: var(--forest); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
         .upload-area { padding: 0 2rem 2rem 2rem; text-align: center; }
-        
-        .btn-select {
-            background: var(--input-bg);
-            border: 2px dashed var(--forest);
-            color: var(--forest);
-            padding: 1rem;
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: bold;
-            display: block;
-            transition: 0.2s;
-        }
+        .btn-select { background: var(--input-bg); border: 2px dashed var(--forest); color: var(--forest); padding: 1rem; cursor: pointer; border-radius: 8px; font-weight: bold; display: block; transition: 0.2s; }
         .btn-select:hover { background: rgba(0,0,0,0.05); }
 
-        #gallery {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        .polaroid {
-            background: white;
-            padding: 6px 6px 20px 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            width: 80px;
-            height: 80px;
-            transform: rotate(-2deg);
-        }
+        #gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
+        .polaroid { background: white; padding: 6px 6px 20px 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); width: 80px; height: 80px; transform: rotate(-2deg); }
         .polaroid:nth-child(even) { transform: rotate(2deg); }
         .polaroid img { width: 100%; height: 100%; object-fit: cover; }
         .polaroid.uploaded { border: 3px solid #4CAF50; }
 
-        .action-bar {
-            padding: 1.5rem;
-            background: var(--input-bg);
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .btn-upload {
-            background: var(--accent);
-            color: white;
-            padding: 12px 40px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            max-width: 300px;
-        }
+        .action-bar { padding: 1.5rem; background: var(--input-bg); border-top: 1px solid var(--border); text-align: center; }
+        
+        .btn-upload { background: var(--accent); color: white; padding: 12px 40px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; }
         .btn-upload:disabled { background: #999; cursor: not-allowed; }
+        
+        /* NEW BUTTON: View Drive */
+        .btn-drive { background: var(--forest); color: white; margin-top: 15px; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.9rem; display: inline-block; }
+        .btn-drive:hover { opacity: 0.9; }
+
+        #progress-text { margin-top: 10px; font-weight: bold; }
 
     </style>
 </head>
@@ -237,101 +144,72 @@
                 <div class="mode-option active" id="tab-new" onclick="setMode('new')">Create Folder</div>
                 <div class="mode-option" id="tab-existing" onclick="setMode('existing')">Existing Folder</div>
             </div>
-
             <div id="new-folder-group">
                 <label>Folder Name</label>
                 <input type="text" id="folderNameInput" placeholder="e.g. Hiking">
-                
                 <label>Date</label>
                 <input type="date" id="folderDateInput">
             </div>
-
             <div id="existing-folder-group" style="display:none;">
                 <label>Select Folder</label>
-                <select id="existingFolderSelect">
-                    <option disabled selected>Loading folders...</option>
-                </select>
+                <select id="existingFolderSelect"><option disabled selected>Loading folders...</option></select>
             </div>
         </div>
-
         <div>
             <label>Scout Name</label>
-            <div class="helper-text">Who is uploading these? (e.g. Vahan)</div>
+            <div class="helper-text">Who is uploading?</div>
             <input type="text" id="uploaderName" placeholder="Your Name">
             
             <label>Password 🔒</label>
             <input type="password" id="campPassword" placeholder="Enter Code">
+            
+            <button class="btn-drive" onclick="openDriveLink()">📂 Open Drive Gallery</button>
         </div>
     </div>
 
     <div class="upload-area">
         <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none">
-        
-        <div class="btn-select" onclick="document.getElementById('fileInput').click()">
-            📸 Tap to Select Photos & Videos
-        </div>
-
+        <div class="btn-select" onclick="document.getElementById('fileInput').click()">📸 Tap to Select Media</div>
         <div id="gallery"></div>
     </div>
 
     <div class="action-bar">
         <button id="uploadBtn" class="btn-upload" onclick="startBatchUpload()">Start Upload</button>
-        <div id="progress-text" style="margin-top:10px; font-weight:bold;"></div>
+        <div id="progress-text"></div>
     </div>
 </div>
 
 <script>
     // -----------------------------------------------------------
-    // 🔴 PASTE YOUR NEW "SMART" WEB APP URL BELOW
+    // 🔴 PASTE YOUR NEW WEB APP URL HERE
     // -----------------------------------------------------------
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzt9rS_vDuF-xw4LF5jNug7gR8oDnIhhULQnjUgZviYC8k1SeGDZV2wvUMxxmNnRhUeWw/exec"; 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx4zfa2oAJB_tJQ6HjJrsmZ9DtHPZyDl-RwItLDfJLjPeYvsPdrfDki-HNRYRrHveE8Yw/exec"; 
 
-    // --- SETUP & THEME ---
     let currentMode = 'new';
     let fileQueue = [];
 
-    // Auto-detect theme
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.setAttribute('data-theme', 'dark');
-    }
-
+    // Theme & Logo Logic
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.setAttribute('data-theme', 'dark');
     function toggleTheme() {
-        if (document.body.getAttribute('data-theme') === 'dark') {
-            document.body.removeAttribute('data-theme');
-        } else {
-            document.body.setAttribute('data-theme', 'dark');
-        }
+        document.body.getAttribute('data-theme') === 'dark' ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'dark');
     }
-
-    // --- BOUNCING LOGO LOGIC ---
     const logo = document.getElementById('bouncing-logo');
     let x = 0, y = 0, dx = 1.5, dy = 1.5;
-
     function animateLogo() {
         const rect = logo.getBoundingClientRect();
-        const winW = window.innerWidth;
-        const winH = window.innerHeight;
-
-        if (x + rect.width >= winW || x < 0) dx = -dx;
-        if (y + rect.height >= winH || y < 0) dy = -dy;
-
-        x += dx;
-        y += dy;
-
+        if (x + rect.width >= window.innerWidth || x < 0) dx = -dx;
+        if (y + rect.height >= window.innerHeight || y < 0) dy = -dy;
+        x += dx; y += dy;
         logo.style.transform = `translate(${x}px, ${y}px)`;
         requestAnimationFrame(animateLogo);
     }
-    // Start animation safely
-    logo.onload = () => { x = Math.random() * (window.innerWidth - 200); y = Math.random() * (window.innerHeight - 200); animateLogo(); };
-    // Fallback if cached
+    logo.onload = () => { x = Math.random()*(window.innerWidth-200); y = Math.random()*(window.innerHeight-200); animateLogo(); };
     if (logo.complete) animateLogo();
 
-
-    // --- APP LOGIC ---
+    // App Logic
     window.onload = function() {
         loadFolders();
         document.getElementById('uploadBtn').disabled = true;
-        // Set date input to today by default
         document.getElementById('folderDateInput').valueAsDate = new Date();
     };
 
@@ -339,21 +217,43 @@
         currentMode = mode;
         const newGroup = document.getElementById('new-folder-group');
         const existGroup = document.getElementById('existing-folder-group');
-        
         if (mode === 'new') {
-            newGroup.style.display = 'block';
-            existGroup.style.display = 'none';
+            newGroup.style.display = 'block'; existGroup.style.display = 'none';
             document.getElementById('tab-new').classList.add('active');
             document.getElementById('tab-existing').classList.remove('active');
         } else {
-            newGroup.style.display = 'none';
-            existGroup.style.display = 'block';
+            newGroup.style.display = 'none'; existGroup.style.display = 'block';
             document.getElementById('tab-new').classList.remove('active');
             document.getElementById('tab-existing').classList.add('active');
         }
     }
 
-    // File Preview
+    // --- NEW: OPEN DRIVE LINK ---
+    function openDriveLink() {
+        const password = document.getElementById('campPassword').value;
+        if (!password) { alert("🔒 Please enter the Password to view the gallery."); return; }
+
+        const btn = document.querySelector('.btn-drive');
+        const originalText = btn.textContent;
+        btn.textContent = "Verifying...";
+
+        fetch(WEB_APP_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "getDriveLink", password: password }),
+            headers: { "Content-Type": "text/plain" }
+        })
+        .then(r => r.json())
+        .then(data => {
+            if(data.result === 'success') {
+                window.open(data.url, '_blank');
+            } else {
+                alert(data.error);
+            }
+        })
+        .catch(e => alert("Connection Error"))
+        .finally(() => btn.textContent = originalText);
+    }
+
     document.getElementById('fileInput').addEventListener('change', function() {
         const files = Array.from(this.files);
         if (files.length === 0) return;
@@ -361,46 +261,44 @@
         
         const gallery = document.getElementById('gallery');
         gallery.innerHTML = "";
-        
         fileQueue.forEach((file, index) => {
             const div = document.createElement('div');
             div.className = 'polaroid';
             div.id = 'thumb-' + index;
-            const img = document.createElement('img');
-            img.src = URL.createObjectURL(file);
-            div.appendChild(img);
+            if(file.type.startsWith('image/')) {
+                const img = document.createElement('img');
+                img.src = URL.createObjectURL(file);
+                div.appendChild(img);
+            } else {
+                div.innerHTML = "<div style='display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem'>🎬</div>";
+            }
             gallery.appendChild(div);
         });
-
         document.getElementById('uploadBtn').disabled = false;
         document.getElementById('progress-text').textContent = `${fileQueue.length} files ready.`;
     });
 
-    // --- UPLOAD LOGIC ---
+    // --- STANDARD UPLOAD LOOP ---
     function startBatchUpload() {
         const password = document.getElementById('campPassword').value;
         const uploader = document.getElementById('uploaderName').value || "Anonymous";
-        let finalFolderName = "";
+        let folderName = "";
 
         if (!password) { alert("⚠️ Please enter the Password!"); return; }
 
         if (currentMode === 'new') {
             const name = document.getElementById('folderNameInput').value;
             const date = document.getElementById('folderDateInput').value;
-            
             if(!name || !date) { alert("Please enter Folder Name AND Date"); return; }
-            
-            // Format Date: YYYY-MM-DD -> DD/MM/YYYY
-            const [year, month, day] = date.split('-');
-            finalFolderName = `${name} - ${day}/${month}/${year}`;
-            
+            const [y, m, d] = date.split('-');
+            folderName = `${name} - ${d}/${m}/${y}`;
         } else {
-            finalFolderName = document.getElementById('existingFolderSelect').value;
-            if(!finalFolderName) { alert("Please select a folder!"); return; }
+            folderName = document.getElementById('existingFolderSelect').value;
+            if(!folderName) { alert("Please select a folder!"); return; }
         }
 
         document.getElementById('uploadBtn').disabled = true;
-        processQueue(0, finalFolderName, uploader, password);
+        processQueue(0, folderName, uploader, password);
     }
 
     function processQueue(index, folderName, uploader, password) {
@@ -417,7 +315,7 @@
         const reader = new FileReader();
         reader.onload = function(e) {
             const rawBase64 = e.target.result.split(',')[1];
-
+            
             const payload = {
                 action: "upload",
                 password: password,
@@ -433,9 +331,9 @@
             fetch(WEB_APP_URL, {
                 method: "POST",
                 body: JSON.stringify(payload),
-                headers: { "Content-Type": "text/plain;charset=utf-8" }
+                headers: { "Content-Type": "text/plain" }
             })
-            .then(response => response.json())
+            .then(r => r.json())
             .then(data => {
                 if (data.result === 'success') {
                     document.getElementById('thumb-' + index).classList.add('uploaded');
@@ -447,7 +345,7 @@
             })
             .catch(err => {
                 console.error(err);
-                alert("Connection Failed. Check your URL.");
+                alert("Upload failed. Check connection.");
                 document.getElementById('uploadBtn').disabled = false;
             });
         };
@@ -458,24 +356,19 @@
         const select = document.getElementById('existingFolderSelect');
         fetch(WEB_APP_URL, {
             method: "POST",
-            body: JSON.stringify({ action: "getFolders", password: "ANY" }),
-            headers: { "Content-Type": "text/plain;charset=utf-8" }
+            body: JSON.stringify({ action: "getFolders" }),
+            headers: { "Content-Type": "text/plain" }
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(data => {
             if (data.result === 'success') {
                 select.innerHTML = '<option value="" disabled selected>Select Folder...</option>';
                 data.folders.forEach(f => {
                     let opt = document.createElement("option");
-                    opt.text = f;
-                    opt.value = f;
-                    select.add(opt);
+                    opt.text = f; opt.value = f; select.add(opt);
                 });
             }
-        })
-        .catch(e => {
-            select.innerHTML = '<option>Check Connection</option>';
-        });
+        }).catch(e => console.log(e));
     }
 </script>
 
