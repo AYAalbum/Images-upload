@@ -16,7 +16,7 @@
             --border: #ddd;
             --input-bg: #fafafa;
             /* NEW: WARM GOLD GLOW FOR LIGHT MODE */
-            --glow-color: rgba(255, 200, 100, 0.6); 
+            --glow-color: rgba(0, 51, 102, 0.6); 
         }
 
         /* Dark Mode Overrides */
@@ -29,7 +29,7 @@
             --border: #444;
             --input-bg: #2d2d2d;
             /* NEW: COOL BLUE GLOW FOR DARK MODE */
-            --glow-color: rgba(100, 200, 255, 0.7);
+            --glow-color: rgba(77, 166, 255, 0.7);
         }
 
         body {
@@ -53,7 +53,7 @@
             }
             50% {
                 /* Large, brighter glow */
-                filter: drop-shadow(0 0 30px var(--glow-color));
+                filter: drop-shadow(0 0 16px var(--glow-color));
                 opacity: 0.3;
             }
         }
