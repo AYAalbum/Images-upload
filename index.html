@@ -3,36 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troop Media Drop</title>
+    <title>AYA Media Drop</title>
     <link href="https://fonts.googleapis.com/css2?family=Crete+Round&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- THEME VARIABLES --- */
         :root {
-            --forest: #2E5D38;
-            --leather: #8B5A2B;
-            --sand: #F4F1EA;
-            --cork: #e8dcb9; /* Corkboard color */
+            --forest: #003366; /* AYA Blue */
+            --accent: #CC0000; /* AYA Red */
+            --bg: #F4F1EA;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --border: #ddd;
+            --input-bg: #fafafa;
+        }
+
+        /* Dark Mode Overrides */
+        [data-theme="dark"] {
+            --forest: #4da6ff;
+            --accent: #ff4d4d;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text: #e0e0e0;
+            --border: #444;
+            --input-bg: #2d2d2d;
         }
 
         body {
             font-family: 'Lato', sans-serif;
-            background-color: var(--cork);
-            /* Cork texture pattern */
-            background-image: radial-gradient(#d4c5a3 15%, transparent 16%), radial-gradient(#d4c5a3 15%, transparent 16%);
-            background-size: 10px 10px;
-            color: #333;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
+            overflow-x: hidden; /* Prevent scrollbars from moving logo */
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* BOUNCING LOGO BACKGROUND */
+        #bouncing-logo {
+            position: fixed;
+            width: 150px; 
+            opacity: 0.15; /* Faint background effect */
+            z-index: -1;
+            pointer-events: none;
+            will-change: transform;
         }
 
         .main-container {
-            max-width: 800px; /* Wider for the gallery */
+            max-width: 800px;
             margin: 0 auto;
-            background: #fff;
+            background: var(--card-bg);
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            border-radius: 4px;
+            border-radius: 8px;
             overflow: hidden;
             border-top: 6px solid var(--forest);
+            transition: background 0.3s;
+            position: relative;
+            z-index: 10;
         }
 
         header {
@@ -40,21 +67,29 @@
             color: white;
             padding: 1.5rem;
             text-align: center;
-            /* Jagged edge bottom */
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
-            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; }
+        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; font-size: 1.5rem; }
         
-        /* THE FORM GRID */
+        .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
-            padding: 0 2rem;
+            padding: 2rem;
         }
-        
         @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
 
         label {
@@ -65,29 +100,31 @@
             text-transform: uppercase;
             margin-bottom: 5px;
         }
+        
+        /* Helper text for Scout Name */
+        .helper-text {
+            font-size: 0.7rem;
+            color: #888;
+            margin-top: -3px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
 
         input, select {
             width: 100%;
             padding: 10px;
-            border: 2px solid #ddd;
+            border: 2px solid var(--border);
             border-radius: 4px;
             box-sizing: border-box;
             font-family: 'Lato', sans-serif;
+            background: var(--input-bg);
+            color: var(--text);
+            margin-bottom: 15px;
         }
 
-        /* PASSWORD FIELD STYLE */
-        .security-field input {
-            border-color: var(--leather);
-            background-color: #fffaf0;
-            text-align: center;
-            letter-spacing: 3px;
-            font-weight: bold;
-        }
-
-        /* TOGGLE SWITCH */
         .mode-toggle {
             display: flex;
-            background: #eee;
+            background: var(--border);
             border-radius: 4px;
             padding: 4px;
             margin-bottom: 15px;
@@ -104,142 +141,109 @@
             border-radius: 4px;
         }
         .mode-option.active {
-            background: white;
+            background: var(--card-bg);
             color: var(--forest);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* POLAROID GALLERY AREA */
-        .upload-area {
-            padding: 2rem;
-            text-align: center;
-        }
-
+        /* PHOTO UPLOAD AREA */
+        .upload-area { padding: 0 2rem 2rem 2rem; text-align: center; }
+        
         .btn-select {
-            background: #eee;
-            border: 2px dashed var(--leather);
-            color: var(--leather);
-            padding: 1rem 2rem;
+            background: var(--input-bg);
+            border: 2px dashed var(--forest);
+            color: var(--forest);
+            padding: 1rem;
             cursor: pointer;
             border-radius: 8px;
             font-weight: bold;
-            display: inline-block;
+            display: block;
             transition: 0.2s;
         }
-        .btn-select:hover { background: #e9e4dc; }
+        .btn-select:hover { background: rgba(0,0,0,0.05); }
 
-        /* The Polaroid Grid */
         #gallery {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
             margin-top: 20px;
         }
-
         .polaroid {
             background: white;
-            padding: 10px 10px 25px 10px; /* Extra padding bottom for polaroid look */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            padding: 6px 6px 20px 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            width: 80px;
+            height: 80px;
             transform: rotate(-2deg);
-            width: 100px;
-            text-align: center;
-            transition: 0.3s;
-            position: relative;
         }
         .polaroid:nth-child(even) { transform: rotate(2deg); }
-        .polaroid img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border: 1px solid #ddd;
-        }
-        .polaroid.uploaded::after {
-            content: "✓";
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 2rem;
-            color: var(--forest);
-            font-weight: bold;
-            text-shadow: 0 0 5px white;
-        }
+        .polaroid img { width: 100%; height: 100%; object-fit: cover; }
+        .polaroid.uploaded { border: 3px solid #4CAF50; }
 
-        /* ACTION BAR */
         .action-bar {
-            padding: 2rem;
-            background: #f9f9f9;
-            border-top: 1px solid #eee;
+            padding: 1.5rem;
+            background: var(--input-bg);
+            border-top: 1px solid var(--border);
             text-align: center;
         }
 
         .btn-upload {
-            background: var(--forest);
+            background: var(--accent);
             color: white;
-            padding: 15px 40px;
+            padding: 12px 40px;
             border: none;
             border-radius: 30px;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 0 #1a3c22;
-            transition: 0.2s;
+            width: 100%;
+            max-width: 300px;
         }
-        .btn-upload:active {
-            transform: translateY(2px);
-            box-shadow: 0 2px 0 #1a3c22;
-        }
-        .btn-upload:disabled {
-            background: #ccc;
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
-        #progress-text {
-            margin-top: 15px;
-            font-weight: bold;
-            color: var(--leather);
-        }
+        .btn-upload:disabled { background: #999; cursor: not-allowed; }
 
     </style>
 </head>
 <body>
 
+<img src="./AYA logo vahanig.png" id="bouncing-logo" alt="AYA Logo">
+
 <div class="main-container">
     <header>
-        <h1>Troop Media Drop</h1>
+        <h1>AYA Media Drop</h1>
+        <button class="theme-toggle" onclick="toggleTheme()">🌗 Theme</button>
     </header>
 
     <div class="form-grid">
         <div>
             <div class="mode-toggle">
-                <div class="mode-option active" id="tab-new" onclick="setMode('new')">New Event</div>
-                <div class="mode-option" id="tab-existing" onclick="setMode('existing')">Existing</div>
+                <div class="mode-option active" id="tab-new" onclick="setMode('new')">Create Folder</div>
+                <div class="mode-option" id="tab-existing" onclick="setMode('existing')">Existing Folder</div>
             </div>
 
             <div id="new-folder-group">
-                <label>Event Name</label>
-                <input type="text" id="newFolderName" placeholder="e.g. Hiking Trip">
+                <label>Folder Name</label>
+                <input type="text" id="folderNameInput" placeholder="e.g. Hiking">
+                
+                <label>Date</label>
+                <input type="date" id="folderDateInput">
             </div>
 
             <div id="existing-folder-group" style="display:none;">
-                <label>Select Event</label>
+                <label>Select Folder</label>
                 <select id="existingFolderSelect">
-                    <option disabled selected>Loading...</option>
+                    <option disabled selected>Loading folders...</option>
                 </select>
             </div>
         </div>
 
         <div>
             <label>Scout Name</label>
+            <div class="helper-text">Who is uploading these? (e.g. Vahan)</div>
             <input type="text" id="uploaderName" placeholder="Your Name">
             
-            <div style="height: 15px;"></div>
-            
-            <label>Camp Password 🔒</label>
-            <div class="security-field">
-                <input type="password" id="campPassword" placeholder="Enter Code">
-            </div>
+            <label>Password 🔒</label>
+            <input type="password" id="campPassword" placeholder="Enter Code">
         </div>
     </div>
 
@@ -247,36 +251,73 @@
         <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none">
         
         <div class="btn-select" onclick="document.getElementById('fileInput').click()">
-            📸 Tap to Select Photos (Batch Upload)
+            📸 Tap to Select Photos & Videos
         </div>
 
-        <div id="gallery">
-            </div>
+        <div id="gallery"></div>
     </div>
 
     <div class="action-bar">
         <button id="uploadBtn" class="btn-upload" onclick="startBatchUpload()">Start Upload</button>
-        <div id="progress-text">Ready to upload</div>
+        <div id="progress-text" style="margin-top:10px; font-weight:bold;"></div>
     </div>
 </div>
 
 <script>
     // -----------------------------------------------------------
-    // PASTE YOUR NEW WEB APP URL HERE
+    // 🔴 PASTE YOUR NEW WEB APP URL BELOW
     // -----------------------------------------------------------
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxUAQAyKJszaiaPOt93yjSP7DDPWA5ggRqRZDqeEKLzh3Ri10OuubKtGLI9E2AjC-HfZw/exec"; 
 
-    // DATA STORAGE
+    // --- SETUP & THEME ---
     let currentMode = 'new';
-    let fileQueue = []; // Stores the actual file objects
+    let fileQueue = [];
 
-    // --- INITIALIZATION ---
+    // Auto-detect theme
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.setAttribute('data-theme', 'dark');
+    }
+
+    function toggleTheme() {
+        if (document.body.getAttribute('data-theme') === 'dark') {
+            document.body.removeAttribute('data-theme');
+        } else {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+    }
+
+    // --- BOUNCING LOGO LOGIC ---
+    const logo = document.getElementById('bouncing-logo');
+    let x = 0, y = 0, dx = 1.5, dy = 1.5;
+
+    function animateLogo() {
+        const rect = logo.getBoundingClientRect();
+        const winW = window.innerWidth;
+        const winH = window.innerHeight;
+
+        if (x + rect.width >= winW || x < 0) dx = -dx;
+        if (y + rect.height >= winH || y < 0) dy = -dy;
+
+        x += dx;
+        y += dy;
+
+        logo.style.transform = `translate(${x}px, ${y}px)`;
+        requestAnimationFrame(animateLogo);
+    }
+    // Start animation safely
+    logo.onload = () => { x = Math.random() * (window.innerWidth - 200); y = Math.random() * (window.innerHeight - 200); animateLogo(); };
+    // Fallback if cached
+    if (logo.complete) animateLogo();
+
+
+    // --- APP LOGIC ---
     window.onload = function() {
         loadFolders();
-        document.getElementById('uploadBtn').disabled = true; // Disable until files selected
+        document.getElementById('uploadBtn').disabled = true;
+        // Set date input to today by default
+        document.getElementById('folderDateInput').valueAsDate = new Date();
     };
 
-    // --- UI TOGGLE LOGIC ---
     function setMode(mode) {
         currentMode = mode;
         const newGroup = document.getElementById('new-folder-group');
@@ -295,86 +336,77 @@
         }
     }
 
-    // --- 1. HANDLE FILE SELECTION & PREVIEWS ---
+    // File Preview
     document.getElementById('fileInput').addEventListener('change', function() {
         const files = Array.from(this.files);
         if (files.length === 0) return;
-
-        // Add to queue
         fileQueue = fileQueue.concat(files);
         
-        // Render Thumbnails
         const gallery = document.getElementById('gallery');
-        gallery.innerHTML = ""; // Clear current view
+        gallery.innerHTML = "";
         
         fileQueue.forEach((file, index) => {
             const div = document.createElement('div');
             div.className = 'polaroid';
             div.id = 'thumb-' + index;
-
-            // Create thumbnail
             const img = document.createElement('img');
             img.src = URL.createObjectURL(file);
-            
             div.appendChild(img);
             gallery.appendChild(div);
         });
 
         document.getElementById('uploadBtn').disabled = false;
-        document.getElementById('progress-text').textContent = `${fileQueue.length} photos ready.`;
+        document.getElementById('progress-text').textContent = `${fileQueue.length} files ready.`;
     });
 
-    // --- 2. THE BATCH UPLOADER (Recursive) ---
+    // --- UPLOAD LOGIC ---
     function startBatchUpload() {
         const password = document.getElementById('campPassword').value;
         const uploader = document.getElementById('uploaderName').value || "Anonymous";
-        let folderName = "";
+        let finalFolderName = "";
 
-        // Validate Inputs
-        if (!password) { alert("⚠️ Please enter the Camp Password!"); return; }
+        if (!password) { alert("⚠️ Please enter the Password!"); return; }
+
         if (currentMode === 'new') {
-            folderName = document.getElementById('newFolderName').value;
-            if(!folderName) { alert("Please name the new event!"); return; }
+            const name = document.getElementById('folderNameInput').value;
+            const date = document.getElementById('folderDateInput').value;
+            
+            if(!name || !date) { alert("Please enter Folder Name AND Date"); return; }
+            
+            // Format Date: YYYY-MM-DD -> DD/MM/YYYY
+            const [year, month, day] = date.split('-');
+            finalFolderName = `${name} - ${day}/${month}/${year}`;
+            
         } else {
-            folderName = document.getElementById('existingFolderSelect').value;
-            if(!folderName) { alert("Please select an event!"); return; }
+            finalFolderName = document.getElementById('existingFolderSelect').value;
+            if(!finalFolderName) { alert("Please select a folder!"); return; }
         }
 
-        // Lock UI
         document.getElementById('uploadBtn').disabled = true;
-        
-        // Start Loop
-        processQueue(0, folderName, uploader, password);
+        processQueue(0, finalFolderName, uploader, password);
     }
 
     function processQueue(index, folderName, uploader, password) {
-        // BASE CASE: Are we done?
         if (index >= fileQueue.length) {
-            document.getElementById('progress-text').textContent = "🎉 All uploads complete!";
-            document.getElementById('progress-text').style.color = "var(--forest)";
-            
-            // Clean up
+            document.getElementById('progress-text').textContent = "🎉 All Done!";
             fileQueue = [];
-            document.getElementById('fileInput').value = ""; // Reset input
-            loadFolders(); // Refresh folder list
+            loadFolders();
             return;
         }
 
-        // UPDATE UI
         const file = fileQueue[index];
-        document.getElementById('progress-text').textContent = `Uploading ${index + 1} of ${fileQueue.length}...`;
+        document.getElementById('progress-text').textContent = `Uploading ${index + 1}/${fileQueue.length}...`;
         
-        // READ & UPLOAD
         const reader = new FileReader();
         reader.onload = function(e) {
             const rawBase64 = e.target.result.split(',')[1];
 
             const payload = {
                 action: "upload",
-                password: password, // Send password
+                password: password,
                 folderType: currentMode,
-                folderName: currentMode === 'new' ? folderName : null,
-                selectedFolder: currentMode === 'existing' ? folderName : null,
+                folderName: folderName,     // We send the combined name!
+                selectedFolder: folderName, // Same here
                 uploaderName: uploader,
                 file: rawBase64,
                 mimeType: file.type,
@@ -389,9 +421,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.result === 'success') {
-                    // Mark visual thumbnail as done
                     document.getElementById('thumb-' + index).classList.add('uploaded');
-                    // 🚀 UPLOAD NEXT FILE
                     processQueue(index + 1, folderName, uploader, password);
                 } else {
                     alert("Error: " + data.error);
@@ -400,29 +430,24 @@
             })
             .catch(err => {
                 console.error(err);
-                alert("Upload failed on file " + (index+1));
+                alert("Connection Failed. Check your URL.");
                 document.getElementById('uploadBtn').disabled = false;
             });
         };
         reader.readAsDataURL(file);
     }
 
-    // --- LOADER ---
     function loadFolders() {
         const select = document.getElementById('existingFolderSelect');
-        // We also need the password to see folders now! 
-        // Note: For simplicity, I allowed 'getFolders' without a password in the script above
-        // But if you restricted it, you'd need to send the password here too.
-        
         fetch(WEB_APP_URL, {
             method: "POST",
-            body: JSON.stringify({ action: "getFolders", password: "ANY" }), // Password ignored for listing
+            body: JSON.stringify({ action: "getFolders", password: "ANY" }),
             headers: { "Content-Type": "text/plain;charset=utf-8" }
         })
         .then(response => response.json())
         .then(data => {
             if (data.result === 'success') {
-                select.innerHTML = '<option value="" disabled selected>Select Event...</option>';
+                select.innerHTML = '<option value="" disabled selected>Select Folder...</option>';
                 data.folders.forEach(f => {
                     let opt = document.createElement("option");
                     opt.text = f;
@@ -430,6 +455,10 @@
                     select.add(opt);
                 });
             }
+        })
+        .catch(e => {
+            // SIlently fail or show text
+            select.innerHTML = '<option>Check Connection</option>';
         });
     }
 </script>
