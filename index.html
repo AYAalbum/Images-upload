@@ -67,6 +67,30 @@
             z-index: 10;
         }
 
+        /* --- OPTION 2: HEADER LOGO STYLES --- */
+.header-logo {
+    height: 40px; /* Adjust size as needed */
+    width: auto;
+}
+
+.title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between logo and text */
+}
+
+/* Hide the bouncing background logo on mobile to keep it clean */
+@media (max-width: 600px) {
+    #bouncing-logo {
+        display: none;
+    }
+    
+    /* Make the title text slightly smaller on mobile to fit the logo */
+    h1 {
+        font-size: 1.2rem;
+    }
+}
+        
         header {
             background: var(--forest);
             color: white;
@@ -133,10 +157,14 @@
 <img src="./AYA logo vahanig.png" id="bouncing-logo" alt="AYA Logo">
 
 <div class="main-container">
-    <header>
+   <header>
+    <div class="title-wrapper">
+        <img src="./AYA logo vahanig.png" alt="AYA Logo" class="header-logo">
         <h1>AYA Media Drop</h1>
-        <button class="theme-toggle" onclick="toggleTheme()">🌗 Theme</button>
-    </header>
+    </div>
+    
+    <button class="theme-toggle" onclick="toggleTheme()">🌗</button>
+</header>
 
     <div class="form-grid">
         <div>
