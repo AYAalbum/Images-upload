@@ -15,6 +15,8 @@
             --text: #333333;
             --border: #ddd;
             --input-bg: #fafafa;
+            /* NEW: WARM GOLD GLOW FOR LIGHT MODE */
+            --glow-color: rgba(255, 200, 100, 0.6); 
         }
 
         /* Dark Mode Overrides */
@@ -26,6 +28,8 @@
             --text: #e0e0e0;
             --border: #444;
             --input-bg: #2d2d2d;
+            /* NEW: COOL BLUE GLOW FOR DARK MODE */
+            --glow-color: rgba(100, 200, 255, 0.7);
         }
 
         body {
@@ -35,18 +39,33 @@
             margin: 0;
             padding: 20px;
             min-height: 100vh;
-            overflow-x: hidden; /* Prevent scrollbars from moving logo */
+            overflow-x: hidden;
             transition: background 0.3s, color 0.3s;
         }
 
-        /* BOUNCING LOGO BACKGROUND */
+        /* --- BOUNCING PULSING LOGO --- */
+        /* Define the breathing animation */
+        @keyframes pulse-glow {
+            0%, 100% {
+                /* Small, faint glow */
+                filter: drop-shadow(0 0 8px var(--glow-color));
+                opacity: 0.15; 
+            }
+            50% {
+                /* Large, brighter glow */
+                filter: drop-shadow(0 0 30px var(--glow-color));
+                opacity: 0.3;
+            }
+        }
+
         #bouncing-logo {
             position: fixed;
-            width: 150px; 
-            opacity: 0.15; /* Faint background effect */
+            width: 150px;
             z-index: -1;
             pointer-events: none;
-            will-change: transform;
+            will-change: transform, filter;
+            /* Apply the animation: 4 seconds, smooth looping */
+            animation: pulse-glow 4s ease-in-out infinite;
         }
 
         .main-container {
@@ -101,7 +120,6 @@
             margin-bottom: 5px;
         }
         
-        /* Helper text for Scout Name */
         .helper-text {
             font-size: 0.7rem;
             color: #888;
@@ -146,7 +164,6 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* PHOTO UPLOAD AREA */
         .upload-area { padding: 0 2rem 2rem 2rem; text-align: center; }
         
         .btn-select {
@@ -265,9 +282,9 @@
 
 <script>
     // -----------------------------------------------------------
-    // 🔴 PASTE YOUR NEW WEB APP URL BELOW
+    // 🔴 PASTE YOUR NEW "SMART" WEB APP URL BELOW
     // -----------------------------------------------------------
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxUAQAyKJszaiaPOt93yjSP7DDPWA5ggRqRZDqeEKLzh3Ri10OuubKtGLI9E2AjC-HfZw/exec"; 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzt9rS_vDuF-xw4LF5jNug7gR8oDnIhhULQnjUgZviYC8k1SeGDZV2wvUMxxmNnRhUeWw/exec"; 
 
     // --- SETUP & THEME ---
     let currentMode = 'new';
@@ -405,8 +422,8 @@
                 action: "upload",
                 password: password,
                 folderType: currentMode,
-                folderName: folderName,     // We send the combined name!
-                selectedFolder: folderName, // Same here
+                folderName: folderName,
+                selectedFolder: folderName,
                 uploaderName: uploader,
                 file: rawBase64,
                 mimeType: file.type,
@@ -457,7 +474,6 @@
             }
         })
         .catch(e => {
-            // SIlently fail or show text
             select.innerHTML = '<option>Check Connection</option>';
         });
     }
