@@ -3,362 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scout Field Drop</title>
+    <title>Troop Media Drop</title>
     <link href="https://fonts.googleapis.com/css2?family=Crete+Round&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --forest: #2E5D38;
             --leather: #8B5A2B;
             --sand: #F4F1EA;
-            --rope: #C19A6B;
-            --alert: #D9534F;
+            --cork: #e8dcb9; /* Corkboard color */
         }
 
         body {
             font-family: 'Lato', sans-serif;
-            background-color: var(--sand);
-            /* Subtle Topographic Map Pattern */
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C19A6B' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-color: var(--cork);
+            /* Cork texture pattern */
+            background-image: radial-gradient(#d4c5a3 15%, transparent 16%), radial-gradient(#d4c5a3 15%, transparent 16%);
+            background-size: 10px 10px;
             color: #333;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             padding: 20px;
+            min-height: 100vh;
         }
 
-        .journal-card {
+        .main-container {
+            max-width: 800px; /* Wider for the gallery */
+            margin: 0 auto;
             background: #fff;
-            width: 100%;
-            max-width: 480px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             border-radius: 4px;
-            box-shadow: 
-                0 0 0 5px var(--leather),
-                0 10px 20px rgba(0,0,0,0.2);
-            position: relative;
             overflow: hidden;
+            border-top: 6px solid var(--forest);
         }
 
-        /* The "Badge" Header */
         header {
-            background-color: var(--forest);
-            padding: 2rem 1rem;
-            text-align: center;
+            background: var(--forest);
             color: white;
-            border-bottom: 4px solid var(--leather);
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
-            margin-bottom: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            /* Jagged edge bottom */
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+            margin-bottom: 2rem;
         }
 
-        h1 {
-            font-family: 'Crete Round', serif;
-            margin: 0;
-            font-size: 2rem;
-            letter-spacing: 1px;
-            text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; }
+        
+        /* THE FORM GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 0 2rem;
+        }
+        
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+        label {
+            display: block;
+            font-weight: bold;
+            color: var(--forest);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 5px;
         }
 
-        p.subtitle {
-            margin: 5px 0 0;
-            opacity: 0.9;
-            font-size: 0.9rem;
-            font-style: italic;
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: 'Lato', sans-serif;
         }
 
-        form {
-            padding: 0 2rem 2rem 2rem;
+        /* PASSWORD FIELD STYLE */
+        .security-field input {
+            border-color: var(--leather);
+            background-color: #fffaf0;
+            text-align: center;
+            letter-spacing: 3px;
+            font-weight: bold;
         }
 
-        /* Toggle Switch for Folder Mode */
+        /* TOGGLE SWITCH */
         .mode-toggle {
             display: flex;
             background: #eee;
-            border-radius: 8px;
+            border-radius: 4px;
             padding: 4px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 15px;
+            grid-column: 1 / -1;
         }
         .mode-option {
             flex: 1;
             text-align: center;
             padding: 8px;
             cursor: pointer;
-            border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
-            transition: 0.3s;
-            color: #666;
+            color: #888;
+            border-radius: 4px;
         }
         .mode-option.active {
             background: white;
             color: var(--forest);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-            color: var(--forest);
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 0.5px;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-            background: #fafafa;
-            margin-bottom: 1rem;
-            box-sizing: border-box;
-            transition: border 0.3s;
-        }
-
-        input[type="text"]:focus, select:focus {
-            border-color: var(--forest);
-            outline: none;
-        }
-
-        /* File Area */
-        .file-drop-zone {
-            border: 2px dashed var(--rope);
-            background: rgba(193, 154, 107, 0.1);
-            border-radius: 8px;
+        /* POLAROID GALLERY AREA */
+        .upload-area {
             padding: 2rem;
             text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-bottom: 1.5rem;
-        }
-        .file-drop-zone:hover {
-            background: rgba(193, 154, 107, 0.2);
-            border-color: var(--leather);
-        }
-        .file-icon {
-            font-size: 2rem;
-            display: block;
-            margin-bottom: 0.5rem;
         }
 
-        button.btn-submit {
-            background-color: var(--forest);
-            color: white;
+        .btn-select {
+            background: #eee;
+            border: 2px dashed var(--leather);
+            color: var(--leather);
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+            transition: 0.2s;
+        }
+        .btn-select:hover { background: #e9e4dc; }
+
+        /* The Polaroid Grid */
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 10px 10px 25px 10px; /* Extra padding bottom for polaroid look */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transform: rotate(-2deg);
+            width: 100px;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+        }
+        .polaroid:nth-child(even) { transform: rotate(2deg); }
+        .polaroid img {
             width: 100%;
-            padding: 14px;
+            height: 100px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+        .polaroid.uploaded::after {
+            content: "✓";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: var(--forest);
+            font-weight: bold;
+            text-shadow: 0 0 5px white;
+        }
+
+        /* ACTION BAR */
+        .action-bar {
+            padding: 2rem;
+            background: #f9f9f9;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+
+        .btn-upload {
+            background: var(--forest);
+            color: white;
+            padding: 15px 40px;
             border: none;
-            border-bottom: 4px solid #1a3c22;
-            border-radius: 6px;
+            border-radius: 30px;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s;
+            box-shadow: 0 4px 0 #1a3c22;
+            transition: 0.2s;
         }
-
-        button.btn-submit:active {
+        .btn-upload:active {
             transform: translateY(2px);
-            border-bottom: 2px solid #1a3c22;
+            box-shadow: 0 2px 0 #1a3c22;
         }
-        
-        button.btn-submit:disabled {
-            background-color: #999;
-            border-bottom-color: #777;
+        .btn-upload:disabled {
+            background: #ccc;
+            box-shadow: none;
             cursor: not-allowed;
         }
 
-        #status {
-            text-align: center;
-            margin-top: 1rem;
+        #progress-text {
+            margin-top: 15px;
             font-weight: bold;
-            font-size: 0.9rem;
-            min-height: 1.2em;
-        }
-
-        /* Loader */
-        .loader {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #fff;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-            margin-right: 10px;
-        }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            color: var(--leather);
         }
 
     </style>
 </head>
 <body>
 
-<div class="journal-card">
+<div class="main-container">
     <header>
-        <h1>Field Journal</h1>
-        <p class="subtitle">Secure Media Drop-Point</p>
+        <h1>Troop Media Drop</h1>
     </header>
 
-    <form id="uploadForm">
-        <div class="mode-toggle">
-            <div class="mode-option active" id="tab-new" onclick="setMode('new')">Create New Event</div>
-            <div class="mode-option" id="tab-existing" onclick="setMode('existing')">Join Existing</div>
+    <div class="form-grid">
+        <div>
+            <div class="mode-toggle">
+                <div class="mode-option active" id="tab-new" onclick="setMode('new')">New Event</div>
+                <div class="mode-option" id="tab-existing" onclick="setMode('existing')">Existing</div>
+            </div>
+
+            <div id="new-folder-group">
+                <label>Event Name</label>
+                <input type="text" id="newFolderName" placeholder="e.g. Hiking Trip">
+            </div>
+
+            <div id="existing-folder-group" style="display:none;">
+                <label>Select Event</label>
+                <select id="existingFolderSelect">
+                    <option disabled selected>Loading...</option>
+                </select>
+            </div>
         </div>
 
-        <div id="new-folder-group">
-            <label>Event Name (Creates Folder)</label>
-            <input type="text" id="newFolderName" placeholder="e.g. Winter Camp 2026">
+        <div>
+            <label>Scout Name</label>
+            <input type="text" id="uploaderName" placeholder="Your Name">
+            
+            <div style="height: 15px;"></div>
+            
+            <label>Camp Password 🔒</label>
+            <div class="security-field">
+                <input type="password" id="campPassword" placeholder="Enter Code">
+            </div>
+        </div>
+    </div>
+
+    <div class="upload-area">
+        <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none">
+        
+        <div class="btn-select" onclick="document.getElementById('fileInput').click()">
+            📸 Tap to Select Photos (Batch Upload)
         </div>
 
-        <div id="existing-folder-group" style="display:none;">
-            <label>Select Event</label>
-            <select id="existingFolderSelect">
-                <option value="" disabled selected>Loading folders...</option>
-            </select>
-        </div>
+        <div id="gallery">
+            </div>
+    </div>
 
-        <label>Scout Name (Optional)</label>
-        <input type="text" id="uploaderName" placeholder="Who took this?">
-
-        <div class="file-drop-zone" onclick="document.getElementById('fileInput').click()">
-            <span class="file-icon">📸</span>
-            <span id="fileLabel">Tap to select photo/video</span>
-            <input type="file" id="fileInput" hidden>
-        </div>
-
-        <button type="submit" class="btn-submit" id="submitBtn">Upload to Archive</button>
-        <div id="status"></div>
-    </form>
+    <div class="action-bar">
+        <button id="uploadBtn" class="btn-upload" onclick="startBatchUpload()">Start Upload</button>
+        <div id="progress-text">Ready to upload</div>
+    </div>
 </div>
 
 <script>
     // -----------------------------------------------------------
     // PASTE YOUR NEW WEB APP URL HERE
     // -----------------------------------------------------------
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxISbp94t4U_PdlETP1PrxwI3q-EhdOnTQ6sJxn0qlcxeQOOLreGymJ6kGznlDhlwwPQA/exec"; 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxUAQAyKJszaiaPOt93yjSP7DDPWA5ggRqRZDqeEKLzh3Ri10OuubKtGLI9E2AjC-HfZw/exec"; 
 
-    // STATE
-    let currentMode = 'new'; // 'new' or 'existing'
+    // DATA STORAGE
+    let currentMode = 'new';
+    let fileQueue = []; // Stores the actual file objects
 
-    // INIT
+    // --- INITIALIZATION ---
     window.onload = function() {
         loadFolders();
+        document.getElementById('uploadBtn').disabled = true; // Disable until files selected
     };
 
-    // UI LOGIC
+    // --- UI TOGGLE LOGIC ---
     function setMode(mode) {
         currentMode = mode;
         const newGroup = document.getElementById('new-folder-group');
         const existGroup = document.getElementById('existing-folder-group');
-        const tabNew = document.getElementById('tab-new');
-        const tabExist = document.getElementById('tab-existing');
-
+        
         if (mode === 'new') {
             newGroup.style.display = 'block';
             existGroup.style.display = 'none';
-            tabNew.classList.add('active');
-            tabExist.classList.remove('active');
+            document.getElementById('tab-new').classList.add('active');
+            document.getElementById('tab-existing').classList.remove('active');
         } else {
             newGroup.style.display = 'none';
             existGroup.style.display = 'block';
-            tabNew.classList.remove('active');
-            tabExist.classList.add('active');
+            document.getElementById('tab-new').classList.remove('active');
+            document.getElementById('tab-existing').classList.add('active');
         }
     }
 
-    // FILE LABEL UPDATE
+    // --- 1. HANDLE FILE SELECTION & PREVIEWS ---
     document.getElementById('fileInput').addEventListener('change', function() {
-        if (this.files && this.files.length > 0) {
-            document.getElementById('fileLabel').textContent = this.files[0].name;
-            document.getElementById('fileLabel').style.fontWeight = "bold";
-            document.getElementById('fileLabel').style.color = "var(--forest)";
-        }
+        const files = Array.from(this.files);
+        if (files.length === 0) return;
+
+        // Add to queue
+        fileQueue = fileQueue.concat(files);
+        
+        // Render Thumbnails
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = ""; // Clear current view
+        
+        fileQueue.forEach((file, index) => {
+            const div = document.createElement('div');
+            div.className = 'polaroid';
+            div.id = 'thumb-' + index;
+
+            // Create thumbnail
+            const img = document.createElement('img');
+            img.src = URL.createObjectURL(file);
+            
+            div.appendChild(img);
+            gallery.appendChild(div);
+        });
+
+        document.getElementById('uploadBtn').disabled = false;
+        document.getElementById('progress-text').textContent = `${fileQueue.length} photos ready.`;
     });
 
-    // LOAD FOLDERS FROM DRIVE
-    function loadFolders() {
-        const select = document.getElementById('existingFolderSelect');
+    // --- 2. THE BATCH UPLOADER (Recursive) ---
+    function startBatchUpload() {
+        const password = document.getElementById('campPassword').value;
+        const uploader = document.getElementById('uploaderName').value || "Anonymous";
+        let folderName = "";
+
+        // Validate Inputs
+        if (!password) { alert("⚠️ Please enter the Camp Password!"); return; }
+        if (currentMode === 'new') {
+            folderName = document.getElementById('newFolderName').value;
+            if(!folderName) { alert("Please name the new event!"); return; }
+        } else {
+            folderName = document.getElementById('existingFolderSelect').value;
+            if(!folderName) { alert("Please select an event!"); return; }
+        }
+
+        // Lock UI
+        document.getElementById('uploadBtn').disabled = true;
         
-        fetch(WEB_APP_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "getFolders" }),
-            headers: { "Content-Type": "text/plain;charset=utf-8" }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.result === 'success') {
-                select.innerHTML = '<option value="" disabled selected>Select an Event...</option>';
-                data.folders.forEach(folder => {
-                    let option = document.createElement("option");
-                    option.text = folder;
-                    option.value = folder;
-                    select.add(option);
-                });
-            }
-        })
-        .catch(e => {
-            console.error(e);
-            select.innerHTML = '<option disabled>Error loading folders</option>';
-        });
+        // Start Loop
+        processQueue(0, folderName, uploader, password);
     }
 
-    // UPLOAD LOGIC
-    const form = document.getElementById('uploadForm');
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const fileInput = document.getElementById('fileInput');
-        const status = document.getElementById('status');
-        const btn = document.getElementById('submitBtn');
-
-        // Validation
-        if (!fileInput.files.length) {
-            status.textContent = "⚠️ Please select a file first";
-            status.style.color = "var(--alert)";
+    function processQueue(index, folderName, uploader, password) {
+        // BASE CASE: Are we done?
+        if (index >= fileQueue.length) {
+            document.getElementById('progress-text').textContent = "🎉 All uploads complete!";
+            document.getElementById('progress-text').style.color = "var(--forest)";
+            
+            // Clean up
+            fileQueue = [];
+            document.getElementById('fileInput').value = ""; // Reset input
+            loadFolders(); // Refresh folder list
             return;
         }
 
-        let folderNameValue = "";
-        if (currentMode === 'new') {
-            folderNameValue = document.getElementById('newFolderName').value;
-            if (!folderNameValue) {
-                status.textContent = "⚠️ Please enter a new Event Name";
-                status.style.color = "var(--alert)";
-                return;
-            }
-        } else {
-            folderNameValue = document.getElementById('existingFolderSelect').value;
-            if (!folderNameValue) {
-                status.textContent = "⚠️ Please select an Event";
-                status.style.color = "var(--alert)";
-                return;
-            }
-        }
-
-        // Prepare Upload
-        const file = fileInput.files[0];
+        // UPDATE UI
+        const file = fileQueue[index];
+        document.getElementById('progress-text').textContent = `Uploading ${index + 1} of ${fileQueue.length}...`;
+        
+        // READ & UPLOAD
         const reader = new FileReader();
-
-        status.innerHTML = '<span class="loader"></span> Uploading...';
-        status.style.color = "var(--forest)";
-        btn.disabled = true;
-
         reader.onload = function(e) {
             const rawBase64 = e.target.result.split(',')[1];
 
             const payload = {
                 action: "upload",
-                folderType: currentMode, // 'new' or 'existing'
-                folderName: currentMode === 'new' ? folderNameValue : null,
-                selectedFolder: currentMode === 'existing' ? folderNameValue : null,
-                uploaderName: document.getElementById('uploaderName').value || "Anonymous Scout",
+                password: password, // Send password
+                folderType: currentMode,
+                folderName: currentMode === 'new' ? folderName : null,
+                selectedFolder: currentMode === 'existing' ? folderName : null,
+                uploaderName: uploader,
                 file: rawBase64,
                 mimeType: file.type,
                 filename: file.name
@@ -371,29 +388,50 @@
             })
             .then(response => response.json())
             .then(data => {
-                if(data.result === 'success'){
-                    status.textContent = "✅ Upload Successful!";
-                    status.style.color = "var(--forest)";
-                    form.reset();
-                    document.getElementById('fileLabel').textContent = "Tap to select photo/video";
-                    setMode('new'); // Reset view
-                    // Reload folders in case a new one was just created
-                    loadFolders();
+                if (data.result === 'success') {
+                    // Mark visual thumbnail as done
+                    document.getElementById('thumb-' + index).classList.add('uploaded');
+                    // 🚀 UPLOAD NEXT FILE
+                    processQueue(index + 1, folderName, uploader, password);
                 } else {
-                    throw new Error(data.error);
+                    alert("Error: " + data.error);
+                    document.getElementById('uploadBtn').disabled = false;
                 }
             })
-            .catch(error => {
-                console.error(error);
-                status.textContent = "❌ Upload Failed. Try again.";
-                status.style.color = "var(--alert)";
-            })
-            .finally(() => {
-                btn.disabled = false;
+            .catch(err => {
+                console.error(err);
+                alert("Upload failed on file " + (index+1));
+                document.getElementById('uploadBtn').disabled = false;
             });
         };
         reader.readAsDataURL(file);
-    });
+    }
+
+    // --- LOADER ---
+    function loadFolders() {
+        const select = document.getElementById('existingFolderSelect');
+        // We also need the password to see folders now! 
+        // Note: For simplicity, I allowed 'getFolders' without a password in the script above
+        // But if you restricted it, you'd need to send the password here too.
+        
+        fetch(WEB_APP_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "getFolders", password: "ANY" }), // Password ignored for listing
+            headers: { "Content-Type": "text/plain;charset=utf-8" }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success') {
+                select.innerHTML = '<option value="" disabled selected>Select Event...</option>';
+                data.folders.forEach(f => {
+                    let opt = document.createElement("option");
+                    opt.text = f;
+                    opt.value = f;
+                    select.add(opt);
+                });
+            }
+        });
+    }
 </script>
 
 </body>
