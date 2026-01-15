@@ -8,14 +8,13 @@
     <style>
         /* --- THEME VARIABLES --- */
         :root {
-            --forest: #003366; /* AYA Blue */
-            --accent: #CC0000; /* AYA Red */
+            --forest: #003366;
+            --accent: #CC0000;
             --bg: #F4F1EA;
             --card-bg: #ffffff;
             --text: #333333;
             --border: #ddd;
             --input-bg: #fafafa;
-            --glow-color: rgba(0, 51, 102, 0.6); 
         }
 
         [data-theme="dark"] {
@@ -26,7 +25,6 @@
             --text: #e0e0e0;
             --border: #444;
             --input-bg: #2d2d2d;
-            --glow-color: rgba(77, 166, 255, 0.7);
         }
 
         body {
@@ -38,20 +36,6 @@
             min-height: 100vh;
             overflow-x: hidden;
             transition: background 0.3s, color 0.3s;
-        }
-
-        /* BOUNCING LOGO */
-        @keyframes pulse-glow {
-            0%, 100% { filter: drop-shadow(0 0 8px var(--glow-color)); opacity: 0.15; }
-            50% { filter: drop-shadow(0 0 14px var(--glow-color)); opacity: 0.3; }
-        }
-        #bouncing-logo {
-            position: fixed;
-            width: 150px;
-            z-index: -1;
-            pointer-events: none;
-            will-change: transform, filter;
-            animation: pulse-glow 4s ease-in-out infinite;
         }
 
         .main-container {
@@ -67,50 +51,44 @@
             z-index: 10;
         }
 
-        /* --- OPTION 2: HEADER LOGO STYLES --- */
-.header-logo {
-    height: 40px; /* Adjust size as needed */
-    width: auto;
-}
-
-.title-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* Space between logo and text */
-}
-
-/* Hide the bouncing background logo on mobile to keep it clean */
-@media (max-width: 600px) {
-    #bouncing-logo {
-        display: none;
-    }
-    
-    /* Make the title text slightly smaller on mobile to fit the logo */
-    h1 {
-        font-size: 1.2rem;
-    }
-}
-        
+        /* HEADER STYLES (Fixed for Mobile) */
         header {
             background: var(--forest);
             color: white;
-            padding: 1.5rem;
-            text-align: center;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; font-size: 1.5rem; }
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; font-size: 1.4rem; }
         
+        @media (max-width: 600px) {
+            h1 { font-size: 1.1rem; } 
+            .header-logo { height: 32px; }
+            .form-grid { grid-template-columns: 1fr !important; } 
+        }
+
         .theme-toggle {
             background: rgba(255,255,255,0.2);
             border: none;
             color: white;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1.2rem;
         }
 
         .form-grid {
@@ -119,7 +97,6 @@
             gap: 20px;
             padding: 2rem;
         }
-        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
 
         label { display: block; font-weight: bold; color: var(--forest); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; }
         .helper-text { font-size: 0.7rem; color: #888; margin-top: -3px; margin-bottom: 5px; font-style: italic; }
@@ -134,37 +111,39 @@
         .btn-select:hover { background: rgba(0,0,0,0.05); }
 
         #gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
-        .polaroid { background: white; padding: 6px 6px 20px 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); width: 80px; height: 80px; transform: rotate(-2deg); }
+        .polaroid { background: white; padding: 6px 6px 20px 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); width: 80px; height: 80px; transform: rotate(-2deg); position: relative; }
         .polaroid:nth-child(even) { transform: rotate(2deg); }
         .polaroid img { width: 100%; height: 100%; object-fit: cover; }
         .polaroid.uploaded { border: 3px solid #4CAF50; }
+        /* Loader inside polaroid */
+        .p-loader { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.5rem; display:none; }
 
         .action-bar { padding: 1.5rem; background: var(--input-bg); border-top: 1px solid var(--border); text-align: center; }
-        
         .btn-upload { background: var(--accent); color: white; padding: 12px 40px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; }
         .btn-upload:disabled { background: #999; cursor: not-allowed; }
         
-        /* NEW BUTTON: View Drive */
-        .btn-drive { background: var(--forest); color: white; margin-top: 15px; padding: 10px 20px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.9rem; display: inline-block; }
-        .btn-drive:hover { opacity: 0.9; }
+        /* DRIVE ACCESS AREA */
+        .drive-section { margin-top: 20px; padding: 15px; border: 1px solid var(--border); border-radius: 8px; background: rgba(0,0,0,0.02); }
+        .btn-drive { background: var(--forest); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+        
+        /* The Link that appears after verification */
+        #drive-link-container { display: none; margin-top: 10px; animation: fadeIn 0.5s; }
+        .success-link { display: block; background: #4CAF50; color: white; padding: 10px; border-radius: 5px; text-decoration: none; font-weight: bold; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
 
         #progress-text { margin-top: 10px; font-weight: bold; }
-
     </style>
 </head>
 <body>
 
-<img src="./AYA logo vahanig.png" id="bouncing-logo" alt="AYA Logo">
-
 <div class="main-container">
-   <header>
-    <div class="title-wrapper">
-        <img src="./AYA logo vahanig.png" alt="AYA Logo" class="header-logo">
-        <h1>AYA Media Drop</h1>
-    </div>
-    
-    <button class="theme-toggle" onclick="toggleTheme()">🌗</button>
-</header>
+    <header>
+        <div class="title-wrapper">
+            <img src="./AYA logo vahanig.png" alt="AYA Logo" class="header-logo">
+            <h1>AYA Media Drop</h1>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">🌗</button>
+    </header>
 
     <div class="form-grid">
         <div>
@@ -191,7 +170,12 @@
             <label>Password 🔒</label>
             <input type="password" id="campPassword" placeholder="Enter Code">
             
-            <button class="btn-drive" onclick="openDriveLink()">📂 Open Drive Gallery</button>
+            <div class="drive-section">
+                <button class="btn-drive" id="verifyBtn" onclick="verifyAndShowLink()">📂 Access Gallery</button>
+                <div id="drive-link-container">
+                    <a href="#" id="finalDriveLink" target="_blank" class="success-link">✅ Tap here to open Drive</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -209,32 +193,21 @@
 
 <script>
     // -----------------------------------------------------------
-    // 🔴 PASTE YOUR NEW WEB APP URL HERE
+    // 🔴 PASTE YOUR WEB APP URL HERE
     // -----------------------------------------------------------
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx4zfa2oAJB_tJQ6HjJrsmZ9DtHPZyDl-RwItLDfJLjPeYvsPdrfDki-HNRYRrHveE8Yw/exec"; 
+
+    // CONFIG: How many photos to upload at the same time?
+    const CONCURRENT_UPLOADS = 3; 
 
     let currentMode = 'new';
     let fileQueue = [];
 
-    // Theme & Logo Logic
+    // Theme Logic
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.setAttribute('data-theme', 'dark');
-    function toggleTheme() {
-        document.body.getAttribute('data-theme') === 'dark' ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'dark');
-    }
-    const logo = document.getElementById('bouncing-logo');
-    let x = 0, y = 0, dx = 1.5, dy = 1.5;
-    function animateLogo() {
-        const rect = logo.getBoundingClientRect();
-        if (x + rect.width >= window.innerWidth || x < 0) dx = -dx;
-        if (y + rect.height >= window.innerHeight || y < 0) dy = -dy;
-        x += dx; y += dy;
-        logo.style.transform = `translate(${x}px, ${y}px)`;
-        requestAnimationFrame(animateLogo);
-    }
-    logo.onload = () => { x = Math.random()*(window.innerWidth-200); y = Math.random()*(window.innerHeight-200); animateLogo(); };
-    if (logo.complete) animateLogo();
+    function toggleTheme() { document.body.getAttribute('data-theme') === 'dark' ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'dark'); }
 
-    // App Logic
+    // Init
     window.onload = function() {
         loadFolders();
         document.getElementById('uploadBtn').disabled = true;
@@ -256,14 +229,17 @@
         }
     }
 
-    // --- NEW: OPEN DRIVE LINK ---
-    function openDriveLink() {
+    // --- MOBILE FIX: VERIFY THEN SHOW LINK ---
+    function verifyAndShowLink() {
         const password = document.getElementById('campPassword').value;
-        if (!password) { alert("🔒 Please enter the Password to view the gallery."); return; }
+        const btn = document.getElementById('verifyBtn');
+        const linkContainer = document.getElementById('drive-link-container');
+        
+        if (!password) { alert("🔒 Please enter the Password first."); return; }
 
-        const btn = document.querySelector('.btn-drive');
-        const originalText = btn.textContent;
         btn.textContent = "Verifying...";
+        btn.disabled = true;
+        linkContainer.style.display = 'none';
 
         fetch(WEB_APP_URL, {
             method: "POST",
@@ -273,41 +249,59 @@
         .then(r => r.json())
         .then(data => {
             if(data.result === 'success') {
-                window.open(data.url, '_blank');
+                document.getElementById('finalDriveLink').href = data.url;
+                linkContainer.style.display = 'block';
+                btn.textContent = "Verified!";
             } else {
                 alert(data.error);
+                btn.textContent = "📂 Access Gallery";
+                btn.disabled = false;
             }
         })
-        .catch(e => alert("Connection Error"))
-        .finally(() => btn.textContent = originalText);
+        .catch(e => {
+            alert("Connection Error");
+            btn.textContent = "📂 Access Gallery";
+            btn.disabled = false;
+        });
     }
 
     document.getElementById('fileInput').addEventListener('change', function() {
         const files = Array.from(this.files);
         if (files.length === 0) return;
         fileQueue = fileQueue.concat(files);
-        
+        renderGallery();
+    });
+
+    function renderGallery() {
         const gallery = document.getElementById('gallery');
         gallery.innerHTML = "";
         fileQueue.forEach((file, index) => {
             const div = document.createElement('div');
             div.className = 'polaroid';
             div.id = 'thumb-' + index;
+            
+            // Loader icon inside
+            const loader = document.createElement('div');
+            loader.className = 'p-loader';
+            loader.id = 'loader-' + index;
+            loader.textContent = '⏳';
+            div.appendChild(loader);
+
             if(file.type.startsWith('image/')) {
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
                 div.appendChild(img);
             } else {
-                div.innerHTML = "<div style='display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem'>🎬</div>";
+                div.innerHTML += "<div style='display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem'>🎬</div>";
             }
             gallery.appendChild(div);
         });
         document.getElementById('uploadBtn').disabled = false;
         document.getElementById('progress-text').textContent = `${fileQueue.length} files ready.`;
-    });
+    }
 
-    // --- STANDARD UPLOAD LOOP ---
-    function startBatchUpload() {
+    // --- FASTER UPLOAD: PARALLEL PROCESSING ---
+    async function startBatchUpload() {
         const password = document.getElementById('campPassword').value;
         const uploader = document.getElementById('uploaderName').value || "Anonymous";
         let folderName = "";
@@ -326,58 +320,77 @@
         }
 
         document.getElementById('uploadBtn').disabled = true;
-        processQueue(0, folderName, uploader, password);
-    }
-
-    function processQueue(index, folderName, uploader, password) {
-        if (index >= fileQueue.length) {
-            document.getElementById('progress-text').textContent = "🎉 All Done!";
-            fileQueue = [];
-            loadFolders();
-            return;
-        }
-
-        const file = fileQueue[index];
-        document.getElementById('progress-text').textContent = `Uploading ${index + 1}/${fileQueue.length}...`;
+        const statusText = document.getElementById('progress-text');
         
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const rawBase64 = e.target.result.split(',')[1];
-            
-            const payload = {
-                action: "upload",
-                password: password,
-                folderType: currentMode,
-                folderName: folderName,
-                selectedFolder: folderName,
-                uploaderName: uploader,
-                file: rawBase64,
-                mimeType: file.type,
-                filename: file.name
-            };
+        // Parallel Logic
+        let activeUploads = 0;
+        let completed = 0;
+        let nextIndex = 0;
 
-            fetch(WEB_APP_URL, {
-                method: "POST",
-                body: JSON.stringify(payload),
-                headers: { "Content-Type": "text/plain" }
-            })
-            .then(r => r.json())
-            .then(data => {
-                if (data.result === 'success') {
-                    document.getElementById('thumb-' + index).classList.add('uploaded');
-                    processQueue(index + 1, folderName, uploader, password);
-                } else {
-                    alert("Error: " + data.error);
-                    document.getElementById('uploadBtn').disabled = false;
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert("Upload failed. Check connection.");
-                document.getElementById('uploadBtn').disabled = false;
+        const uploadLoop = () => {
+            return new Promise((resolve) => {
+                if (nextIndex >= fileQueue.length) { resolve(); return; }
+
+                const index = nextIndex++;
+                const file = fileQueue[index];
+                
+                // Show loader
+                document.getElementById('loader-' + index).style.display = 'block';
+                statusText.textContent = `Uploading... (${completed}/${fileQueue.length})`;
+
+                // Read file
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const rawBase64 = e.target.result.split(',')[1];
+                    
+                    fetch(WEB_APP_URL, {
+                        method: "POST",
+                        body: JSON.stringify({
+                            action: "upload",
+                            password: password,
+                            folderType: currentMode,
+                            folderName: folderName,
+                            selectedFolder: folderName,
+                            uploaderName: uploader,
+                            file: rawBase64,
+                            mimeType: file.type,
+                            filename: file.name
+                        }),
+                        headers: { "Content-Type": "text/plain" }
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.result === 'success') {
+                            document.getElementById('thumb-' + index).classList.add('uploaded');
+                            document.getElementById('loader-' + index).textContent = '✅';
+                        } else {
+                            document.getElementById('loader-' + index).textContent = '❌';
+                        }
+                    })
+                    .catch(err => console.error(err))
+                    .finally(() => {
+                        completed++;
+                        statusText.textContent = `Progress: ${completed}/${fileQueue.length}`;
+                        // Trigger next
+                        uploadLoop().then(resolve);
+                    });
+                };
+                reader.readAsDataURL(file);
             });
         };
-        reader.readAsDataURL(file);
+
+        // Start X threads at once
+        const threads = [];
+        for (let i = 0; i < CONCURRENT_UPLOADS; i++) {
+            threads.push(uploadLoop());
+        }
+
+        await Promise.all(threads);
+        
+        statusText.textContent = "🎉 All Done!";
+        fileQueue = [];
+        loadFolders();
+        // Don't re-enable button, force refresh or new selection
     }
 
     function loadFolders() {
