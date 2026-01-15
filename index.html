@@ -6,25 +6,29 @@
     <title>AYA Media Drop</title>
     <link href="https://fonts.googleapis.com/css2?family=Crete+Round&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- THEME VARIABLES --- */
+        /* --- DESIGN SYSTEM --- */
         :root {
-            --forest: #003366;
-            --accent: #CC0000;
+            --forest: #003366; /* AYA Blue */
+            --accent: #CC0000; /* AYA Red */
+            --success: #27ae60; /* Pro Green */
             --bg: #F4F1EA;
-            --card-bg: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.92); /* Glassy White */
             --text: #333333;
-            --border: #ddd;
-            --input-bg: #fafafa;
+            --border: #e0e0e0;
+            --input-bg: #f8f9fa;
+            --shadow: 0 8px 30px rgba(0,0,0,0.12);
         }
 
         [data-theme="dark"] {
             --forest: #4da6ff;
             --accent: #ff4d4d;
+            --success: #2ecc71;
             --bg: #121212;
-            --card-bg: #1e1e1e;
+            --card-bg: rgba(30, 30, 30, 0.92);
             --text: #e0e0e0;
             --border: #444;
             --input-bg: #2d2d2d;
+            --shadow: 0 8px 30px rgba(0,0,0,0.5);
         }
 
         body {
@@ -38,100 +42,161 @@
             transition: background 0.3s, color 0.3s;
         }
 
+        /* --- LAYOUT --- */
         .main-container {
             max-width: 800px;
             margin: 0 auto;
             background: var(--card-bg);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            border-radius: 8px;
+            backdrop-filter: blur(10px); /* Glassmorphism */
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            border-radius: 12px;
             overflow: hidden;
             border-top: 6px solid var(--forest);
-            transition: background 0.3s;
+            transition: all 0.3s;
             position: relative;
             z-index: 10;
         }
 
-        /* HEADER STYLES (Fixed for Mobile) */
         header {
             background: var(--forest);
             color: white;
-            padding: 1rem 1.5rem;
+            padding: 1.2rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .title-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .header-logo {
-            height: 40px;
-            width: auto;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        }
-
-        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; font-size: 1.4rem; }
+        .title-wrapper { display: flex; align-items: center; gap: 15px; }
+        .header-logo { height: 45px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; font-size: 1.5rem; }
         
         @media (max-width: 600px) {
             h1 { font-size: 1.1rem; } 
-            .header-logo { height: 32px; }
-            .form-grid { grid-template-columns: 1fr !important; } 
+            .header-logo { height: 35px; }
+            .form-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+            header { padding: 1rem; }
         }
 
-        .theme-toggle {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
+        /* --- FORM ELEMENTS --- */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 30px;
             padding: 2rem;
         }
 
-        label { display: block; font-weight: bold; color: var(--forest); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 5px; }
-        .helper-text { font-size: 0.7rem; color: #888; margin-top: -3px; margin-bottom: 5px; font-style: italic; }
-        input, select { width: 100%; padding: 10px; border: 2px solid var(--border); border-radius: 4px; box-sizing: border-box; background: var(--input-bg); color: var(--text); margin-bottom: 15px; }
+        label { display: block; font-weight: bold; color: var(--forest); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .helper-text { font-size: 0.7rem; color: #888; margin-top: -6px; margin-bottom: 8px; font-style: italic; }
+        
+        input, select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 2px solid var(--border); 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            background: var(--input-bg); 
+            color: var(--text); 
+            margin-bottom: 20px; 
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus { border-color: var(--forest); outline: none; }
 
-        .mode-toggle { display: flex; background: var(--border); border-radius: 4px; padding: 4px; margin-bottom: 15px; grid-column: 1 / -1; }
-        .mode-option { flex: 1; text-align: center; padding: 8px; cursor: pointer; font-weight: bold; font-size: 0.9rem; color: #888; border-radius: 4px; }
-        .mode-option.active { background: var(--card-bg); color: var(--forest); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        /* TABS */
+        .mode-toggle { display: flex; background: var(--border); border-radius: 8px; padding: 4px; margin-bottom: 20px; grid-column: 1 / -1; }
+        .mode-option { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; font-size: 0.9rem; color: #888; border-radius: 6px; transition: 0.2s; }
+        .mode-option.active { background: var(--card-bg); color: var(--forest); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
-        .upload-area { padding: 0 2rem 2rem 2rem; text-align: center; }
-        .btn-select { background: var(--input-bg); border: 2px dashed var(--forest); color: var(--forest); padding: 1rem; cursor: pointer; border-radius: 8px; font-weight: bold; display: block; transition: 0.2s; }
-        .btn-select:hover { background: rgba(0,0,0,0.05); }
+        /* --- UPLOAD AREA --- */
+        .upload-area { padding: 0 2rem 2rem 2rem; }
+        
+        .btn-select { 
+            background: var(--input-bg); 
+            border: 2px dashed var(--forest); 
+            color: var(--forest); 
+            padding: 2rem; 
+            text-align: center;
+            cursor: pointer; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            font-size: 1.1rem;
+            transition: all 0.2s; 
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        }
+        .btn-select:hover { background: rgba(0,0,0,0.03); transform: translateY(-2px); }
 
-        #gallery { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
-        .polaroid { background: white; padding: 6px 6px 20px 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); width: 80px; height: 80px; transform: rotate(-2deg); position: relative; }
+        /* --- POLAROID GALLERY --- */
+        #gallery { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 30px; }
+        
+        .polaroid { 
+            background: white; 
+            padding: 8px 8px 30px 8px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+            width: 90px; height: 90px; 
+            transform: rotate(-2deg); 
+            position: relative; 
+            border-radius: 4px;
+            transition: transform 0.2s;
+        }
+        .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
         .polaroid:nth-child(even) { transform: rotate(2deg); }
-        .polaroid img { width: 100%; height: 100%; object-fit: cover; }
-        .polaroid.uploaded { border: 3px solid #4CAF50; }
-        /* Loader inside polaroid */
-        .p-loader { position: absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size:1.5rem; display:none; }
-
-        .action-bar { padding: 1.5rem; background: var(--input-bg); border-top: 1px solid var(--border); text-align: center; }
-        .btn-upload { background: var(--accent); color: white; padding: 12px 40px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: bold; cursor: pointer; width: 100%; max-width: 300px; }
-        .btn-upload:disabled { background: #999; cursor: not-allowed; }
         
-        /* DRIVE ACCESS AREA */
-        .drive-section { margin-top: 20px; padding: 15px; border: 1px solid var(--border); border-radius: 8px; background: rgba(0,0,0,0.02); }
-        .btn-drive { background: var(--forest); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
-        
-        /* The Link that appears after verification */
-        #drive-link-container { display: none; margin-top: 10px; animation: fadeIn 0.5s; }
-        .success-link { display: block; background: #4CAF50; color: white; padding: 10px; border-radius: 5px; text-decoration: none; font-weight: bold; }
-        @keyframes fadeIn { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
+        .polaroid img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
 
-        #progress-text { margin-top: 10px; font-weight: bold; }
+        /* STATUS ICONS (SVG) */
+        .status-overlay {
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(255,255,255,0.8);
+            display: flex; justify-content: center; align-items: center;
+            border-radius: 4px;
+            display: none; /* Hidden by default */
+        }
+        .polaroid.success .status-overlay { display: flex; background: rgba(255,255,255,0.6); }
+        .polaroid.success { border: 3px solid var(--success); }
+        
+        .polaroid.error .status-overlay { display: flex; background: rgba(255,200,200,0.9); }
+        .polaroid.error { border: 3px solid var(--accent); }
+
+        /* SVG Icons */
+        .icon-svg { width: 40px; height: 40px; }
+
+        /* --- ACTION BAR & PROGRESS --- */
+        .action-bar { padding: 2rem; background: var(--input-bg); border-top: 1px solid var(--border); text-align: center; }
+        
+        .btn-upload { 
+            background: linear-gradient(135deg, var(--accent), #a30000); 
+            color: white; 
+            padding: 14px 50px; 
+            border: none; border-radius: 50px; 
+            font-size: 1.1rem; font-weight: bold; 
+            cursor: pointer; 
+            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+        .btn-upload:active { transform: scale(0.98); }
+        .btn-upload:disabled { background: #bbb; cursor: not-allowed; box-shadow: none; }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%; max-width: 400px; height: 8px; background: #e0e0e0; border-radius: 4px;
+            margin: 15px auto 5px auto; overflow: hidden; display: none;
+        }
+        .progress-bar { height: 100%; background: var(--success); width: 0%; transition: width 0.3s; }
+        #progress-text { font-size: 0.9rem; color: #666; font-weight: bold; }
+
+        /* DRIVE BUTTON */
+        .drive-box { 
+            background: rgba(0, 51, 102, 0.05); border: 1px solid var(--border); 
+            padding: 15px; border-radius: 10px; margin-top: 10px; 
+        }
+        .btn-drive { 
+            background: var(--forest); color: white; padding: 12px; 
+            border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; 
+        }
+        #drive-link-container { display: none; margin-top: 10px; }
+        .success-link { display: block; background: var(--success); color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; text-align: center;}
+
     </style>
 </head>
 <body>
@@ -153,7 +218,7 @@
             </div>
             <div id="new-folder-group">
                 <label>Folder Name</label>
-                <input type="text" id="folderNameInput" placeholder="e.g. Hiking">
+                <input type="text" id="folderNameInput" placeholder="e.g. Hiking Trip">
                 <label>Date</label>
                 <input type="date" id="folderDateInput">
             </div>
@@ -162,6 +227,7 @@
                 <select id="existingFolderSelect"><option disabled selected>Loading folders...</option></select>
             </div>
         </div>
+        
         <div>
             <label>Scout Name</label>
             <div class="helper-text">Who is uploading?</div>
@@ -170,10 +236,10 @@
             <label>Password 🔒</label>
             <input type="password" id="campPassword" placeholder="Enter Code">
             
-            <div class="drive-section">
+            <div class="drive-box">
                 <button class="btn-drive" id="verifyBtn" onclick="verifyAndShowLink()">📂 Access Gallery</button>
                 <div id="drive-link-container">
-                    <a href="#" id="finalDriveLink" target="_blank" class="success-link">✅ Tap here to open Drive</a>
+                    <a href="#" id="finalDriveLink" target="_blank" class="success-link">✅ Open Drive Folder</a>
                 </div>
             </div>
         </div>
@@ -181,12 +247,21 @@
 
     <div class="upload-area">
         <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none">
-        <div class="btn-select" onclick="document.getElementById('fileInput').click()">📸 Tap to Select Media</div>
+        
+        <div class="btn-select" onclick="document.getElementById('fileInput').click()">
+            <span style="font-size: 2rem">📸</span>
+            <span>Tap to Select Photos & Videos</span>
+        </div>
+
         <div id="gallery"></div>
     </div>
 
     <div class="action-bar">
         <button id="uploadBtn" class="btn-upload" onclick="startBatchUpload()">Start Upload</button>
+        
+        <div class="progress-container" id="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
         <div id="progress-text"></div>
     </div>
 </div>
@@ -197,8 +272,14 @@
     // -----------------------------------------------------------
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx4zfa2oAJB_tJQ6HjJrsmZ9DtHPZyDl-RwItLDfJLjPeYvsPdrfDki-HNRYRrHveE8Yw/exec"; 
 
-    // CONFIG: How many photos to upload at the same time?
+    // CONFIG
     const CONCURRENT_UPLOADS = 3; 
+    const MAX_SIZE_MB = 30; // Limit for standard script
+
+    // SVG ICONS (Green Tick & Red X)
+    const ICON_SUCCESS = `<svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 4L12 14.01L9 11.01" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const ICON_ERROR = `<svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#CC0000" stroke-width="3"/><path d="M15 9L9 15" stroke="#CC0000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9L15 15" stroke="#CC0000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    const ICON_LOADER = `<div style="font-size:1.5rem; animation:spin 1s linear infinite">⏳</div>`;
 
     let currentMode = 'new';
     let fileQueue = [];
@@ -252,6 +333,7 @@
                 document.getElementById('finalDriveLink').href = data.url;
                 linkContainer.style.display = 'block';
                 btn.textContent = "Verified!";
+                btn.style.background = "#27ae60"; // Green on success
             } else {
                 alert(data.error);
                 btn.textContent = "📂 Access Gallery";
@@ -275,17 +357,17 @@
     function renderGallery() {
         const gallery = document.getElementById('gallery');
         gallery.innerHTML = "";
+        
         fileQueue.forEach((file, index) => {
             const div = document.createElement('div');
             div.className = 'polaroid';
             div.id = 'thumb-' + index;
             
-            // Loader icon inside
-            const loader = document.createElement('div');
-            loader.className = 'p-loader';
-            loader.id = 'loader-' + index;
-            loader.textContent = '⏳';
-            div.appendChild(loader);
+            // Status Overlay (Loader/Success/Error)
+            const statusOverlay = document.createElement('div');
+            statusOverlay.className = 'status-overlay';
+            statusOverlay.id = 'status-' + index;
+            div.appendChild(statusOverlay);
 
             if(file.type.startsWith('image/')) {
                 const img = document.createElement('img');
@@ -297,10 +379,10 @@
             gallery.appendChild(div);
         });
         document.getElementById('uploadBtn').disabled = false;
-        document.getElementById('progress-text').textContent = `${fileQueue.length} files ready.`;
+        document.getElementById('progress-text').textContent = `${fileQueue.length} media ready.`;
     }
 
-    // --- FASTER UPLOAD: PARALLEL PROCESSING ---
+    // --- UPLOAD LOGIC ---
     async function startBatchUpload() {
         const password = document.getElementById('campPassword').value;
         const uploader = document.getElementById('uploaderName').value || "Anonymous";
@@ -319,7 +401,10 @@
             if(!folderName) { alert("Please select a folder!"); return; }
         }
 
+        // Setup UI
         document.getElementById('uploadBtn').disabled = true;
+        document.getElementById('progress-container').style.display = 'block';
+        const progressBar = document.getElementById('progress-bar');
         const statusText = document.getElementById('progress-text');
         
         // Parallel Logic
@@ -334,9 +419,20 @@
                 const index = nextIndex++;
                 const file = fileQueue[index];
                 
+                // SIZE CHECK (Prevent Red X on big files)
+                if (file.size > MAX_SIZE_MB * 1024 * 1024) {
+                    markError(index);
+                    completed++;
+                    updateProgress(completed);
+                    uploadLoop().then(resolve);
+                    return;
+                }
+
                 // Show loader
-                document.getElementById('loader-' + index).style.display = 'block';
-                statusText.textContent = `Uploading... (${completed}/${fileQueue.length})`;
+                const overlay = document.getElementById('status-' + index);
+                overlay.style.display = 'flex';
+                overlay.innerHTML = ICON_LOADER;
+                statusText.textContent = `Uploading ${file.name}...`;
 
                 // Read file
                 const reader = new FileReader();
@@ -361,17 +457,19 @@
                     .then(r => r.json())
                     .then(data => {
                         if (data.result === 'success') {
-                            document.getElementById('thumb-' + index).classList.add('uploaded');
-                            document.getElementById('loader-' + index).textContent = '✅';
+                           markSuccess(index);
                         } else {
-                            document.getElementById('loader-' + index).textContent = '❌';
+                           markError(index);
+                           console.error(data.error);
                         }
                     })
-                    .catch(err => console.error(err))
+                    .catch(err => {
+                        markError(index);
+                        console.error(err);
+                    })
                     .finally(() => {
                         completed++;
-                        statusText.textContent = `Progress: ${completed}/${fileQueue.length}`;
-                        // Trigger next
+                        updateProgress(completed);
                         uploadLoop().then(resolve);
                     });
                 };
@@ -379,7 +477,7 @@
             });
         };
 
-        // Start X threads at once
+        // Start Concurrent Threads
         const threads = [];
         for (let i = 0; i < CONCURRENT_UPLOADS; i++) {
             threads.push(uploadLoop());
@@ -388,9 +486,27 @@
         await Promise.all(threads);
         
         statusText.textContent = "🎉 All Done!";
+        progressBar.style.width = "100%";
         fileQueue = [];
         loadFolders();
-        // Don't re-enable button, force refresh or new selection
+    }
+
+    function updateProgress(completed) {
+        const percent = (completed / fileQueue.length) * 100;
+        document.getElementById('progress-bar').style.width = percent + "%";
+        document.getElementById('progress-text').textContent = `Processed ${completed} of ${fileQueue.length}`;
+    }
+
+    function markSuccess(index) {
+        const overlay = document.getElementById('status-' + index);
+        overlay.innerHTML = ICON_SUCCESS;
+        document.getElementById('thumb-' + index).classList.add('success');
+    }
+
+    function markError(index) {
+        const overlay = document.getElementById('status-' + index);
+        overlay.innerHTML = ICON_ERROR;
+        document.getElementById('thumb-' + index).classList.add('error');
     }
 
     function loadFolders() {
