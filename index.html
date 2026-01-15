@@ -4,198 +4,234 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AYA Media Drop</title>
-    <link href="https://fonts.googleapis.com/css2?family=Crete+Round&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- DESIGN SYSTEM --- */
+        /* --- LUXURY GLASS THEME --- */
         :root {
-            --forest: #003366; /* AYA Blue */
-            --accent: #CC0000; /* AYA Red */
-            --success: #27ae60; /* Pro Green */
-            --bg: #F4F1EA;
-            --card-bg: rgba(255, 255, 255, 0.92); /* Glassy White */
-            --text: #333333;
-            --border: #e0e0e0;
-            --input-bg: #f8f9fa;
-            --shadow: 0 8px 30px rgba(0,0,0,0.12);
-        }
-
-        [data-theme="dark"] {
-            --forest: #4da6ff;
-            --accent: #ff4d4d;
-            --success: #2ecc71;
-            --bg: #121212;
-            --card-bg: rgba(30, 30, 30, 0.92);
-            --text: #e0e0e0;
-            --border: #444;
-            --input-bg: #2d2d2d;
-            --shadow: 0 8px 30px rgba(0,0,0,0.5);
+            --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Deep Ocean */
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-main: #ffffff;
+            --text-muted: #b3c5cd;
+            --accent-gold: #d4af37; /* Luxury Gold */
+            --success-green: #2ecc71;
+            --error-red: #e74c3c;
+            --input-bg: rgba(0, 0, 0, 0.2);
+            --shadow-lg: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         body {
-            font-family: 'Lato', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             margin: 0;
             padding: 20px;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             overflow-x: hidden;
-            transition: background 0.3s, color 0.3s;
         }
 
-        /* --- LAYOUT --- */
+        /* --- GLASS CONTAINER --- */
         .main-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px); /* Glassmorphism */
-            -webkit-backdrop-filter: blur(10px);
-            box-shadow: var(--shadow);
-            border-radius: 12px;
+            width: 100%;
+            max-width: 900px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
             overflow: hidden;
-            border-top: 6px solid var(--forest);
-            transition: all 0.3s;
             position: relative;
-            z-index: 10;
         }
 
+        /* HEADER */
         header {
-            background: var(--forest);
-            color: white;
-            padding: 1.2rem 2rem;
+            padding: 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            border-bottom: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.1);
         }
 
         .title-wrapper { display: flex; align-items: center; gap: 15px; }
-        .header-logo { height: 45px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
-        h1 { margin: 0; font-family: 'Crete Round', serif; letter-spacing: 1px; font-size: 1.5rem; }
+        .header-logo { height: 50px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); }
         
-        @media (max-width: 600px) {
-            h1 { font-size: 1.1rem; } 
-            .header-logo { height: 35px; }
-            .form-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
-            header { padding: 1rem; }
+        h1 { 
+            margin: 0; 
+            font-weight: 300; 
+            letter-spacing: 2px; 
+            font-size: 1.4rem; 
+            text-transform: uppercase; 
         }
+        h1 span { font-weight: 700; color: var(--accent-gold); }
 
-        /* --- FORM ELEMENTS --- */
+        /* FORM LAYOUT */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            padding: 2rem;
+            gap: 40px;
+            padding: 2.5rem;
+        }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; gap: 20px; padding: 1.5rem; } }
+
+        label {
+            display: block;
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
         }
 
-        label { display: block; font-weight: bold; color: var(--forest); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px; }
-        .helper-text { font-size: 0.7rem; color: #888; margin-top: -6px; margin-bottom: 8px; font-style: italic; }
-        
-        input, select { 
-            width: 100%; 
-            padding: 12px 15px; 
-            border: 2px solid var(--border); 
-            border-radius: 8px; 
-            box-sizing: border-box; 
-            background: var(--input-bg); 
-            color: var(--text); 
-            margin-bottom: 20px; 
+        .helper-text { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; font-style: italic; }
+
+        input, select {
+            width: 100%;
+            padding: 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
             font-size: 1rem;
-            transition: border-color 0.2s;
+            box-sizing: border-box;
+            transition: 0.3s;
+            margin-bottom: 20px;
         }
-        input:focus, select:focus { border-color: var(--forest); outline: none; }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            background: rgba(0,0,0,0.4);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+        }
 
-        /* TABS */
-        .mode-toggle { display: flex; background: var(--border); border-radius: 8px; padding: 4px; margin-bottom: 20px; grid-column: 1 / -1; }
-        .mode-option { flex: 1; text-align: center; padding: 10px; cursor: pointer; font-weight: bold; font-size: 0.9rem; color: #888; border-radius: 6px; transition: 0.2s; }
-        .mode-option.active { background: var(--card-bg); color: var(--forest); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-
-        /* --- UPLOAD AREA --- */
-        .upload-area { padding: 0 2rem 2rem 2rem; }
-        
-        .btn-select { 
-            background: var(--input-bg); 
-            border: 2px dashed var(--forest); 
-            color: var(--forest); 
-            padding: 2rem; 
+        /* TOGGLE TABS */
+        .mode-toggle {
+            display: flex;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 25px;
+        }
+        .mode-option {
+            flex: 1;
             text-align: center;
-            cursor: pointer; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            font-size: 1.1rem;
-            transition: all 0.2s; 
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 8px;
+            transition: 0.3s;
         }
-        .btn-select:hover { background: rgba(0,0,0,0.03); transform: translateY(-2px); }
-
-        /* --- POLAROID GALLERY --- */
-        #gallery { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 30px; }
-        
-        .polaroid { 
-            background: white; 
-            padding: 8px 8px 30px 8px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
-            width: 90px; height: 90px; 
-            transform: rotate(-2deg); 
-            position: relative; 
-            border-radius: 4px;
-            transition: transform 0.2s;
+        .mode-option.active {
+            background: var(--glass-border);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-        .polaroid:hover { transform: scale(1.05) rotate(0deg); z-index: 5; }
-        .polaroid:nth-child(even) { transform: rotate(2deg); }
-        
-        .polaroid img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
-
-        /* STATUS ICONS (SVG) */
-        .status-overlay {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(255,255,255,0.8);
-            display: flex; justify-content: center; align-items: center;
-            border-radius: 4px;
-            display: none; /* Hidden by default */
-        }
-        .polaroid.success .status-overlay { display: flex; background: rgba(255,255,255,0.6); }
-        .polaroid.success { border: 3px solid var(--success); }
-        
-        .polaroid.error .status-overlay { display: flex; background: rgba(255,200,200,0.9); }
-        .polaroid.error { border: 3px solid var(--accent); }
-
-        /* SVG Icons */
-        .icon-svg { width: 40px; height: 40px; }
-
-        /* --- ACTION BAR & PROGRESS --- */
-        .action-bar { padding: 2rem; background: var(--input-bg); border-top: 1px solid var(--border); text-align: center; }
-        
-        .btn-upload { 
-            background: linear-gradient(135deg, var(--accent), #a30000); 
-            color: white; 
-            padding: 14px 50px; 
-            border: none; border-radius: 50px; 
-            font-size: 1.1rem; font-weight: bold; 
-            cursor: pointer; 
-            box-shadow: 0 4px 15px rgba(204, 0, 0, 0.3);
-            transition: transform 0.1s, box-shadow 0.2s;
-        }
-        .btn-upload:active { transform: scale(0.98); }
-        .btn-upload:disabled { background: #bbb; cursor: not-allowed; box-shadow: none; }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%; max-width: 400px; height: 8px; background: #e0e0e0; border-radius: 4px;
-            margin: 15px auto 5px auto; overflow: hidden; display: none;
-        }
-        .progress-bar { height: 100%; background: var(--success); width: 0%; transition: width 0.3s; }
-        #progress-text { font-size: 0.9rem; color: #666; font-weight: bold; }
 
         /* DRIVE BUTTON */
-        .drive-box { 
-            background: rgba(0, 51, 102, 0.05); border: 1px solid var(--border); 
-            padding: 15px; border-radius: 10px; margin-top: 10px; 
+        .btn-drive {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 5px;
         }
-        .btn-drive { 
-            background: var(--forest); color: white; padding: 12px; 
-            border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; 
+        .btn-drive:hover { background: var(--accent-gold); color: #000; }
+        .success-link { display: block; text-align: center; margin-top: 10px; color: var(--success-green); text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+
+        /* UPLOAD ZONE */
+        .upload-zone {
+            margin: 0 2.5rem 2.5rem 2.5rem;
+            border: 2px dashed var(--glass-border);
+            border-radius: 15px;
+            background: rgba(0,0,0,0.1);
+            transition: 0.3s;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
-        #drive-link-container { display: none; margin-top: 10px; }
-        .success-link { display: block; background: var(--success); color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; text-align: center;}
+        .upload-zone:hover { background: rgba(255,255,255,0.05); border-color: var(--text-muted); }
+        .icon-camera { font-size: 2.5rem; margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.5)); }
+
+        /* GALLERY */
+        #gallery { 
+            display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; 
+            padding: 20px;
+        }
+        .polaroid {
+            width: 100px; height: 100px;
+            background: white;
+            padding: 5px 5px 25px 5px;
+            border-radius: 4px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+            transform: rotate(-2deg);
+            transition: 0.3s;
+        }
+        .polaroid:nth-child(even) { transform: rotate(2deg); }
+        .polaroid img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+        
+        /* OVERLAYS */
+        .status-overlay {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.6);
+            display: none; align-items: center; justify-content: center;
+            border-radius: 4px;
+            color: white; font-weight: bold; font-size: 1.5rem;
+        }
+        .polaroid.success .status-overlay { display: flex; background: rgba(46, 204, 113, 0.8); } /* Green */
+        .polaroid.error .status-overlay { display: flex; background: rgba(231, 76, 60, 0.8); } /* Red */
+
+        /* FOOTER / ACTION */
+        .action-bar {
+            padding: 2rem;
+            background: rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .btn-upload {
+            background: linear-gradient(45deg, var(--accent-gold), #f1c40f);
+            color: #1a1a1a;
+            border: none;
+            padding: 16px 60px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .btn-upload:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(212, 175, 55, 0.5); }
+        .btn-upload:disabled { background: #555; color: #888; box-shadow: none; cursor: not-allowed; transform: none; }
+
+        /* PROGRESS BAR */
+        .progress-container {
+            width: 100%; height: 6px; background: rgba(255,255,255,0.1); 
+            border-radius: 3px; margin-top: 20px; overflow: hidden; display: none;
+        }
+        .progress-bar { height: 100%; background: var(--success-green); width: 0%; transition: width 0.3s; }
+        #progress-text { margin-top: 10px; font-size: 0.9rem; color: var(--text-muted); }
+
+        /* SHAKE ANIMATION (For wrong password) */
+        @keyframes shake { 0%{transform:translateX(0)} 25%{transform:translateX(5px)} 50%{transform:translateX(-5px)} 75%{transform:translateX(5px)} 100%{transform:translateX(0)} }
+        .shake { animation: shake 0.3s ease-in-out; border-color: var(--error-red) !important; }
 
     </style>
 </head>
@@ -204,60 +240,54 @@
 <div class="main-container">
     <header>
         <div class="title-wrapper">
-            <img src="./AYA logo vahanig.png" alt="AYA Logo" class="header-logo">
-            <h1>AYA Media Drop</h1>
+            <img src="./AYA logo vahanig.png" alt="Logo" class="header-logo">
+            <h1>AYA <span>Media Drop</span></h1>
         </div>
-        <button class="theme-toggle" onclick="toggleTheme()">🌗</button>
     </header>
 
     <div class="form-grid">
         <div>
             <div class="mode-toggle">
-                <div class="mode-option active" id="tab-new" onclick="setMode('new')">Create Folder</div>
+                <div class="mode-option active" id="tab-new" onclick="setMode('new')">New Folder</div>
                 <div class="mode-option" id="tab-existing" onclick="setMode('existing')">Existing Folder</div>
             </div>
+
             <div id="new-folder-group">
                 <label>Folder Name</label>
-                <input type="text" id="folderNameInput" placeholder="e.g. Hiking Trip">
+                <input type="text" id="folderNameInput" placeholder="e.g. Winter Gala">
                 <label>Date</label>
                 <input type="date" id="folderDateInput">
             </div>
+
             <div id="existing-folder-group" style="display:none;">
-                <label>Select Folder</label>
+                <label>Select Event</label>
                 <select id="existingFolderSelect"><option disabled selected>Loading folders...</option></select>
             </div>
         </div>
-        
+
         <div>
             <label>Scout Name</label>
             <div class="helper-text">Who is uploading?</div>
             <input type="text" id="uploaderName" placeholder="Your Name">
-            
-            <label>Password 🔒</label>
-            <input type="password" id="campPassword" placeholder="Enter Code">
-            
-            <div class="drive-box">
-                <button class="btn-drive" id="verifyBtn" onclick="verifyAndShowLink()">📂 Access Gallery</button>
-                <div id="drive-link-container">
-                    <a href="#" id="finalDriveLink" target="_blank" class="success-link">✅ Open Drive Folder</a>
-                </div>
-            </div>
+
+            <label>Access Password 🔒</label>
+            <input type="password" id="campPassword" placeholder="••••">
+
+            <button class="btn-drive" id="verifyBtn" onclick="verifyAndShowLink()">📂 Open Drive Gallery</button>
+            <a href="#" id="finalDriveLink" target="_blank" class="success-link" style="display:none">✅ Click to Open Drive</a>
         </div>
     </div>
 
-    <div class="upload-area">
-        <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none">
-        
-        <div class="btn-select" onclick="document.getElementById('fileInput').click()">
-            <span style="font-size: 2rem">📸</span>
-            <span>Tap to Select Photos & Videos</span>
-        </div>
-
-        <div id="gallery"></div>
+    <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none">
+    <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+        <div class="icon-camera">📸</div>
+        <div style="font-weight:600; letter-spacing:1px; color:var(--text-muted)">TAP TO SELECT MEDIA</div>
     </div>
+
+    <div id="gallery"></div>
 
     <div class="action-bar">
-        <button id="uploadBtn" class="btn-upload" onclick="startBatchUpload()">Start Upload</button>
+        <button id="uploadBtn" class="btn-upload" onclick="preCheckAndUpload()">Start Upload</button>
         
         <div class="progress-container" id="progress-container">
             <div class="progress-bar" id="progress-bar"></div>
@@ -268,25 +298,15 @@
 
 <script>
     // -----------------------------------------------------------
-    // 🔴 PASTE YOUR WEB APP URL HERE
+    // 🔴 PASTE YOUR NEW WEB APP URL HERE
     // -----------------------------------------------------------
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx4zfa2oAJB_tJQ6HjJrsmZ9DtHPZyDl-RwItLDfJLjPeYvsPdrfDki-HNRYRrHveE8Yw/exec"; 
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzal3ftPX0607ZhcjMtKx02LutBiiGnHICsCrMp2EsndaZgQaIpoOtqAw6f9IXPY_wTRQ/exec"; 
 
-    // CONFIG
-    const CONCURRENT_UPLOADS = 3; 
-    const MAX_SIZE_MB = 30; // Limit for standard script
-
-    // SVG ICONS (Green Tick & Red X)
-    const ICON_SUCCESS = `<svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 4L12 14.01L9 11.01" stroke="#27ae60" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    const ICON_ERROR = `<svg class="icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="#CC0000" stroke-width="3"/><path d="M15 9L9 15" stroke="#CC0000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 9L15 15" stroke="#CC0000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    const ICON_LOADER = `<div style="font-size:1.5rem; animation:spin 1s linear infinite">⏳</div>`;
+    const CONCURRENT_UPLOADS = 3;
+    const MAX_SIZE_MB = 35; // Standard script limit
 
     let currentMode = 'new';
     let fileQueue = [];
-
-    // Theme Logic
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) document.body.setAttribute('data-theme', 'dark');
-    function toggleTheme() { document.body.getAttribute('data-theme') === 'dark' ? document.body.removeAttribute('data-theme') : document.body.setAttribute('data-theme', 'dark'); }
 
     // Init
     window.onload = function() {
@@ -310,43 +330,7 @@
         }
     }
 
-    // --- MOBILE FIX: VERIFY THEN SHOW LINK ---
-    function verifyAndShowLink() {
-        const password = document.getElementById('campPassword').value;
-        const btn = document.getElementById('verifyBtn');
-        const linkContainer = document.getElementById('drive-link-container');
-        
-        if (!password) { alert("🔒 Please enter the Password first."); return; }
-
-        btn.textContent = "Verifying...";
-        btn.disabled = true;
-        linkContainer.style.display = 'none';
-
-        fetch(WEB_APP_URL, {
-            method: "POST",
-            body: JSON.stringify({ action: "getDriveLink", password: password }),
-            headers: { "Content-Type": "text/plain" }
-        })
-        .then(r => r.json())
-        .then(data => {
-            if(data.result === 'success') {
-                document.getElementById('finalDriveLink').href = data.url;
-                linkContainer.style.display = 'block';
-                btn.textContent = "Verified!";
-                btn.style.background = "#27ae60"; // Green on success
-            } else {
-                alert(data.error);
-                btn.textContent = "📂 Access Gallery";
-                btn.disabled = false;
-            }
-        })
-        .catch(e => {
-            alert("Connection Error");
-            btn.textContent = "📂 Access Gallery";
-            btn.disabled = false;
-        });
-    }
-
+    // --- FILE SELECTION ---
     document.getElementById('fileInput').addEventListener('change', function() {
         const files = Array.from(this.files);
         if (files.length === 0) return;
@@ -357,57 +341,96 @@
     function renderGallery() {
         const gallery = document.getElementById('gallery');
         gallery.innerHTML = "";
-        
         fileQueue.forEach((file, index) => {
             const div = document.createElement('div');
             div.className = 'polaroid';
             div.id = 'thumb-' + index;
             
-            // Status Overlay (Loader/Success/Error)
-            const statusOverlay = document.createElement('div');
-            statusOverlay.className = 'status-overlay';
-            statusOverlay.id = 'status-' + index;
-            div.appendChild(statusOverlay);
+            // Status Overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'status-overlay';
+            overlay.id = 'status-' + index;
+            div.appendChild(overlay);
 
             if(file.type.startsWith('image/')) {
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
                 div.appendChild(img);
             } else {
-                div.innerHTML += "<div style='display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem'>🎬</div>";
+                div.innerHTML += "<div style='display:flex;align-items:center;justify-content:center;height:100%;font-size:2rem;color:#333'>🎬</div>";
             }
             gallery.appendChild(div);
         });
         document.getElementById('uploadBtn').disabled = false;
-        document.getElementById('progress-text').textContent = `${fileQueue.length} media ready.`;
+        document.getElementById('progress-text').textContent = `${fileQueue.length} files ready`;
     }
 
-    // --- UPLOAD LOGIC ---
-    async function startBatchUpload() {
-        const password = document.getElementById('campPassword').value;
+    // --- NEW: PRE-CHECK PASSWORD BEFORE UPLOAD ---
+    async function preCheckAndUpload() {
+        const passwordInput = document.getElementById('campPassword');
+        const password = passwordInput.value;
+        const btn = document.getElementById('uploadBtn');
+        const statusText = document.getElementById('progress-text');
+
+        if (!password) { 
+            shakeInput(passwordInput); 
+            statusText.textContent = "⚠️ Please enter password";
+            statusText.style.color = "var(--error-red)";
+            return; 
+        }
+
+        // LOCK UI
+        btn.disabled = true;
+        btn.textContent = "Verifying...";
+        statusText.style.color = "var(--text-muted)";
+        
+        // 1. VERIFY PASSWORD ON SERVER
+        try {
+            const checkResp = await fetch(WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify({ action: "verifyPassword", password: password }),
+                headers: { "Content-Type": "text/plain" }
+            }).then(r => r.json());
+
+            if (checkResp.result === 'error') {
+                // STOP HERE IF PASSWORD IS WRONG
+                btn.textContent = "Start Upload";
+                btn.disabled = false;
+                shakeInput(passwordInput);
+                statusText.textContent = "⛔ Incorrect Password. Upload Blocked.";
+                statusText.style.color = "var(--error-red)";
+                return;
+            }
+
+            // 2. IF PASSWORD OK -> START UPLOAD
+            btn.textContent = "Uploading...";
+            startBatchUpload(password);
+
+        } catch (e) {
+            btn.disabled = false;
+            btn.textContent = "Retry Upload";
+            alert("Connection Error. Check internet.");
+        }
+    }
+
+    // --- BATCH UPLOADER ---
+    async function startBatchUpload(verifiedPassword) {
         const uploader = document.getElementById('uploaderName').value || "Anonymous";
         let folderName = "";
-
-        if (!password) { alert("⚠️ Please enter the Password!"); return; }
 
         if (currentMode === 'new') {
             const name = document.getElementById('folderNameInput').value;
             const date = document.getElementById('folderDateInput').value;
-            if(!name || !date) { alert("Please enter Folder Name AND Date"); return; }
+            if(!name || !date) { alert("Please enter Folder Name AND Date"); document.getElementById('uploadBtn').disabled = false; return; }
             const [y, m, d] = date.split('-');
             folderName = `${name} - ${d}/${m}/${y}`;
         } else {
             folderName = document.getElementById('existingFolderSelect').value;
-            if(!folderName) { alert("Please select a folder!"); return; }
+            if(!folderName) { alert("Please select a folder!"); document.getElementById('uploadBtn').disabled = false; return; }
         }
 
-        // Setup UI
-        document.getElementById('uploadBtn').disabled = true;
         document.getElementById('progress-container').style.display = 'block';
-        const progressBar = document.getElementById('progress-bar');
-        const statusText = document.getElementById('progress-text');
         
-        // Parallel Logic
         let activeUploads = 0;
         let completed = 0;
         let nextIndex = 0;
@@ -419,7 +442,7 @@
                 const index = nextIndex++;
                 const file = fileQueue[index];
                 
-                // SIZE CHECK (Prevent Red X on big files)
+                // SIZE CHECK
                 if (file.size > MAX_SIZE_MB * 1024 * 1024) {
                     markError(index);
                     completed++;
@@ -428,13 +451,11 @@
                     return;
                 }
 
-                // Show loader
+                // UI UPDATE
                 const overlay = document.getElementById('status-' + index);
                 overlay.style.display = 'flex';
-                overlay.innerHTML = ICON_LOADER;
-                statusText.textContent = `Uploading ${file.name}...`;
+                overlay.innerHTML = '<div style="animation:spin 1s linear infinite">⏳</div>';
 
-                // Read file
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const rawBase64 = e.target.result.split(',')[1];
@@ -443,7 +464,7 @@
                         method: "POST",
                         body: JSON.stringify({
                             action: "upload",
-                            password: password,
+                            password: verifiedPassword, // Use the verified one
                             folderType: currentMode,
                             folderName: folderName,
                             selectedFolder: folderName,
@@ -456,17 +477,10 @@
                     })
                     .then(r => r.json())
                     .then(data => {
-                        if (data.result === 'success') {
-                           markSuccess(index);
-                        } else {
-                           markError(index);
-                           console.error(data.error);
-                        }
+                        if (data.result === 'success') markSuccess(index);
+                        else markError(index);
                     })
-                    .catch(err => {
-                        markError(index);
-                        console.error(err);
-                    })
+                    .catch(() => markError(index))
                     .finally(() => {
                         completed++;
                         updateProgress(completed);
@@ -477,38 +491,36 @@
             });
         };
 
-        // Start Concurrent Threads
         const threads = [];
-        for (let i = 0; i < CONCURRENT_UPLOADS; i++) {
-            threads.push(uploadLoop());
-        }
-
+        for (let i = 0; i < CONCURRENT_UPLOADS; i++) threads.push(uploadLoop());
         await Promise.all(threads);
         
-        statusText.textContent = "🎉 All Done!";
-        progressBar.style.width = "100%";
+        document.getElementById('progress-text').textContent = "🎉 Upload Complete!";
+        document.getElementById('uploadBtn').textContent = "Done";
         fileQueue = [];
         loadFolders();
     }
 
+    // --- HELPERS ---
     function updateProgress(completed) {
         const percent = (completed / fileQueue.length) * 100;
         document.getElementById('progress-bar').style.width = percent + "%";
         document.getElementById('progress-text').textContent = `Processed ${completed} of ${fileQueue.length}`;
     }
-
     function markSuccess(index) {
-        const overlay = document.getElementById('status-' + index);
-        overlay.innerHTML = ICON_SUCCESS;
+        const el = document.getElementById('status-' + index);
+        el.innerHTML = '✅';
         document.getElementById('thumb-' + index).classList.add('success');
     }
-
     function markError(index) {
-        const overlay = document.getElementById('status-' + index);
-        overlay.innerHTML = ICON_ERROR;
+        const el = document.getElementById('status-' + index);
+        el.innerHTML = '❌';
         document.getElementById('thumb-' + index).classList.add('error');
     }
-
+    function shakeInput(input) {
+        input.classList.add('shake');
+        setTimeout(() => input.classList.remove('shake'), 400);
+    }
     function loadFolders() {
         const select = document.getElementById('existingFolderSelect');
         fetch(WEB_APP_URL, {
@@ -525,7 +537,31 @@
                     opt.text = f; opt.value = f; select.add(opt);
                 });
             }
-        }).catch(e => console.log(e));
+        });
+    }
+    function verifyAndShowLink() {
+        const password = document.getElementById('campPassword').value;
+        const btn = document.getElementById('verifyBtn');
+        if (!password) { shakeInput(document.getElementById('campPassword')); return; }
+
+        btn.textContent = "Verifying...";
+        fetch(WEB_APP_URL, {
+            method: "POST",
+            body: JSON.stringify({ action: "getDriveLink", password: password }),
+            headers: { "Content-Type": "text/plain" }
+        }).then(r => r.json()).then(data => {
+            if(data.result === 'success') {
+                document.getElementById('finalDriveLink').href = data.url;
+                document.getElementById('finalDriveLink').style.display = 'block';
+                btn.textContent = "Verified!";
+                btn.style.borderColor = "var(--success-green)";
+                btn.style.color = "var(--success-green)";
+            } else {
+                alert("Incorrect Password");
+                btn.textContent = "📂 Open Drive Gallery";
+                shakeInput(document.getElementById('campPassword'));
+            }
+        });
     }
 </script>
 
